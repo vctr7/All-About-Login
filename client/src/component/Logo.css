@@ -1,0 +1,38 @@
+
+.LogosWrapper {
+    position: absolute;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .LogosWrapper{
+      animation: LogosWrapper-spin infinite 40s linear;
+    }
+}
+@media (prefers-reduced-motion: no-preference) {
+    .Image{
+        animation: Image-spin infinite 10s linear;
+      }
+}
+@media (prefers-reduced-motion: no-preference) {
+    .Logos{
+        animation: Logos-spin infinite 20s linear;
+      }
+}
+@keyframes LogosWrapper-spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+/* @keyframes Image-spin {
+    0% { transform: rotate(0deg) translate(10em) rotate(0deg); }
+    100% { transform: rotate(360deg) translate(10em) rotate(-360deg); }
+  } */
+
+.Image{
+    object-fit: cover;
+    border-radius: 50%;
+    background-color: white;
+}

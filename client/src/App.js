@@ -1,23 +1,29 @@
-import logo from './logo.svg'
-import './App.css'
+import logo from './logo.png';
+import './App.css';
+
+import Logo from './component/Logo';
 
 function App() {
     return (
         <div className="App">
             <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                ></a>
-                <div>로그인</div>
-                <div>ログイン</div>
-                <div>LOGIN</div>
+                <div className="App-logo">
+                    <img src={logo} alt="logo" />
+                </div>
+
+                <div className="App-logos">
+                    <Logo className=""></Logo>
+                </div>
+                <div className="App-italic" draggable={false}>
+                    <i>로그인</i>
+                    <br />
+                    <i>ログイン</i>
+                    <br />
+                    <i>LOGIN</i>
+                </div>
             </header>
         </div>
-    )
+    );
 }
 
-export default App
+export default App;
