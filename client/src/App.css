@@ -14,7 +14,6 @@
     }
 }
 .App-header {
-    /* position: absolute; */
     background-color: #282c34;
     min-height: 100vh;
     display: flex;
@@ -40,12 +39,25 @@
         transform: rotate(0deg);
     }
 }
+.SignUp {
+    display: flex;
+    flex-direction: column;
+}
+.SignIn {
+    display: flex;
+    flex-direction: column;
+}
 
 .App-italic {
+    text-align: center;
     opacity: 40%;
-    font-size: 3em;
+    font-size: 2em;
     font-style: oblique;
     font-stretch: ultra-expanded;
     text-decoration: underline;
     transform: skew(-15deg);
+    cursor: pointer;
+}
+.App-italic:hover {
+    opacity: 80%;
 }

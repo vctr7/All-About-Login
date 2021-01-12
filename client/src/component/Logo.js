@@ -21,19 +21,19 @@ function Logo({}) {
     const logos = [
         amazon,
         apple,
+        github,
+        twitch,
         discord,
         facebook,
-        github,
-        google,
-        instagram,
-        kakao,
-        line,
         linkedin,
         microsoft,
-        naver,
-        spotify,
-        twitch,
         twitter,
+        spotify,
+        naver,
+        line,
+        kakao,
+        instagram,
+        google,
     ];
 
     const deg = 360 / logos.length;
@@ -46,23 +46,12 @@ function Logo({}) {
             transform: 'rotate(' + String(idx * deg) + 'deg)',
         };
     };
-    const imgStyle = (idx) => {
-        return {
-            position: 'absolute',
-            width: '48px',
-            height: '48px',
-            transformOrigin: '50% 50%',
-            transform: 'translate(10em) rotate(90deg)',
-            objectFit: 'cover',
-            borderRradius: '50%',
-        };
-    };
 
     return (
         <div className="LogosWrapper">
             <div>
                 {logos.map((logo, i) => (
-                    <div key={i} className='logosStyle' style={logosStyle(i)}>
+                    <div key={i} className="logosStyle" style={logosStyle(i)}>
                         <img className="Image" src={logo} />
                     </div>
                 ))}
