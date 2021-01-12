@@ -1,8 +1,6 @@
 import React from 'react';
 import './Logo.css';
 
-import styled, { keyframes } from 'styled-components';
-
 import amazon from '../logo/amazon.png';
 import apple from '../logo/apple.png';
 import discord from '../logo/discord.png';
@@ -64,8 +62,8 @@ function Logo({}) {
         <div className="LogosWrapper">
             <div>
                 {logos.map((logo, i) => (
-                    <div key={i} style={logosStyle(i)}>
-                        <img className="Image" src={logo} style={imgStyle(i)} />
+                    <div key={i} className='logosStyle' style={logosStyle(i)}>
+                        <img className="Image" src={logo} />
                     </div>
                 ))}
             </div>
