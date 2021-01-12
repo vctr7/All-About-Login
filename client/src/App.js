@@ -1,11 +1,12 @@
 import logo from './logo.png';
 import './App.css';
-
 import Logo from './component/Logo';
 import { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import { Button, Input } from '@material-ui/core/';
+import axios from 'axios';
+
 function getModalStyle() {
     const top = 50;
     const left = 50;
@@ -27,11 +28,13 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(2, 4, 3),
     },
 }));
+
 function App() {
     const classes = useStyles();
     const [modalStyle] = useState(getModalStyle);
     const [user, setUser] = useState(null);
-    const [username, setUsername] = useState('');
+    const [userState, setUserState] = useState(null);
+    const [userName, setUserName] = useState('');
     const [open, setOpen] = useState(false);
     const [openSignIn, setOpenSingIn] = useState(false);
     const [email, setEmail] = useState('');
@@ -39,32 +42,63 @@ function App() {
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordChecker, setPasswordChecker] = useState(false);
-    // const emailCheck = false;
+
+    const [data, setData] = useState({});
+
     useEffect(() => {
         if (password === passwordCheck) setPasswordChecker(true);
         else setPasswordChecker(false);
     }, [passwordCheck]);
+
+    // useEffect(() => {
+    //     console.log("logout");
+    // },[userState]);
+
+    const loginState = async () => {
+        const res = await axios.get('/api/auth/check');
+        setUserState(res.data);
+    };
+
+    const logOut = () => {
+        axios.post('/api/auth/logout');
+        setUserState(null);
+        console.log('logout');
+    };
+
     const signUp = (e) => {
         e.preventDefault();
+        axios
+            .post('/api/auth/register', {
+                userId: id,
+                password: password,
+                userName: userName,
+                emailAddress: email,
+            })
+            .then(loginState);
 
-        //
         setOpen(false);
         setPasswordChecker(false);
         setPassword('');
         setPasswordCheck('');
         setId('');
         setOpenSingIn(false);
+        console.log('sign up and sign in');
     };
 
     const signIn = (e) => {
         e.preventDefault();
 
         //
+        axios
+            .post('/api/auth/login', { userId: id, password: password })
+            .then(loginState);
 
         setPassword('');
         setId('');
         setOpenSingIn(false);
+        console.log('sign in');
     };
+
     return (
         <div className="App">
             <Modal
@@ -75,7 +109,7 @@ function App() {
                     setId('');
                     setPassword('');
                     setPasswordCheck('');
-                    setUsername('');
+                    setUserName('');
                     setEmail('');
                     setOpenSingIn(false);
                 }}
@@ -117,9 +151,9 @@ function App() {
                             <Input
                                 type="text"
                                 placeholder="NAME"
-                                value={username}
+                                value={userName}
                                 onChange={(e) => {
-                                    setUsername(e.target.value);
+                                    setUserName(e.target.value);
                                 }}
                             />
                             <Input
@@ -130,7 +164,6 @@ function App() {
                                     setEmail(e.target.value);
                                 }}
                             />
-
                             <div>
                                 {passwordCheck ? (
                                     <>
@@ -140,7 +173,6 @@ function App() {
                                     </>
                                 ) : null}
                             </div>
-
                             <Button type="submit" onClick={signUp}>
                                 Sign Up
                             </Button>
@@ -206,15 +238,23 @@ function App() {
                 <div className="App-logos">
                     <Logo className=""></Logo>
                 </div>
-                <div className="App-italic" onClick={() => setOpenSingIn(true)}>
-                    
-                    <i>ローカル アカウント</i>
-                    <br />
-                    <i>로컬 계정</i>
-                   
-                    <br />
-                    <i>LOCAL ACCOUNT</i>
-                </div>
+                {userState ? (
+                    <div className="App-italic" onClick={logOut}>
+                        <i>'로그아웃'</i>
+                    </div>
+                ) : (
+                    <div
+                        className="App-italic"
+                        onClick={() => setOpenSingIn(true)}
+                    >
+                        <i>ローカル アカウント</i>
+                        <br />
+                        <i>로컬 계정</i>
+                        <br />
+                        <i>LOCAL ACCOUNT</i>
+                        {/* {(data)} */}
+                    </div>
+                )}
             </header>
         </div>
     );
