@@ -57,7 +57,17 @@
     text-decoration: underline;
     transform: skew(-15deg);
     cursor: pointer;
+    transform: scale(1);
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -ms-transition: 0.2s;
+    -o-transition: 0.2s;
 }
 .App-italic:hover {
+    transform: scale(1);
+    -webkit-transform:  scale(1);
+    -moz-transform:  scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
     opacity: 80%;
 }

@@ -43,21 +43,24 @@ function App() {
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordChecker, setPasswordChecker] = useState(false);
 
-    const [data, setData] = useState({});
-
     useEffect(() => {
+
         if (password === passwordCheck) setPasswordChecker(true);
         else setPasswordChecker(false);
     }, [passwordCheck]);
 
-    // useEffect(() => {
-    //     console.log("logout");
-    // },[userState]);
 
-    const loginState = async () => {
-        const res = await axios.get('/api/auth/check');
-        setUserState(res.data);
+    useEffect(() => {
+        loginState();
+
+    }, [])
+
+
+    const loginState = async() => {
+        await axios.get('/api/auth/check').then(data => setUserState(data)).catch(console.log("error"));
     };
+
+
 
     const logOut = () => {
         axios.post('/api/auth/logout');
@@ -67,31 +70,28 @@ function App() {
 
     const signUp = (e) => {
         e.preventDefault();
+
         axios
             .post('/api/auth/register', {
                 userId: id,
                 password: password,
                 userName: userName,
                 emailAddress: email,
-            })
-            .then(loginState);
-
+            });
         setOpen(false);
         setPasswordChecker(false);
         setPassword('');
         setPasswordCheck('');
         setId('');
-        setOpenSingIn(false);
+
         console.log('sign up and sign in');
     };
 
-    const signIn = (e) => {
+    const signIn = async(e) => {
         e.preventDefault();
 
-        //
         axios
-            .post('/api/auth/login', { userId: id, password: password })
-            .then(loginState);
+            .post('/api/auth/login', { userId: id, password: password });
 
         setPassword('');
         setId('');
@@ -240,7 +240,11 @@ function App() {
                 </div>
                 {userState ? (
                     <div className="App-italic" onClick={logOut}>
-                        <i>'로그아웃'</i>
+                        <i>로그아웃</i>
+                        <br/>
+                        <i>ログアウト</i>
+                        <br/>
+                        <i>LOGOUT</i>
                     </div>
                 ) : (
                     <div
@@ -248,8 +252,6 @@ function App() {
                         onClick={() => setOpenSingIn(true)}
                     >
                         <i>ローカル アカウント</i>
-                        <br />
-                        <i>로컬 계정</i>
                         <br />
                         <i>LOCAL ACCOUNT</i>
                         {/* {(data)} */}
