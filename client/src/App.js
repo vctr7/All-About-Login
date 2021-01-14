@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import { Button, Input } from '@material-ui/core/';
 import axios from 'axios';
-
+import NaverLogin from 'react-naver-login';
 function getModalStyle() {
     const top = 50;
     const left = 50;
@@ -248,7 +248,7 @@ function App() {
                 <div className="App-logo">
                     <img src={logo} alt="logo" />
                 </div>
-
+            
                 <div className="App-logos">
                     <Logo className=""></Logo>
                 </div>
@@ -259,9 +259,9 @@ function App() {
                         <i>LOGOUT</i>
                         <br></br>
                         {userState.data.userId}
-                        <br/>
+                        <br />
                         {userState.data.userName}
-                        <br/>
+                        <br />
                         {userState.data.emailAddress}
                     </div>
                 ) : (

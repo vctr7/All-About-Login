@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './Logo.css';
 
 import amazon from '../logo/amazon.png';
@@ -16,6 +16,8 @@ import naver from '../logo/naver.png';
 import spotify from '../logo/spotify.png';
 import twitch from '../logo/twitch.png';
 import twitter from '../logo/twitter.png';
+
+import NaverLogin from 'react-naver-login';
 
 function Logo() {
     const logos = [
@@ -46,12 +48,43 @@ function Logo() {
         };
     };
 
+    const Login = (i, logo) => {
+        switch (i) {
+            case 10:
+                return (
+                    <NaverLogin
+                        clientId="9uf8JFm4iwh9Die7Jy86"
+                        callbackUrl="http://localhost:3000/"
+                        render={(props) => (
+                            <img
+                                onClick={props.onClick}
+                                className="Image"
+                                src={logo}
+                                alt="logo"
+                            />
+                        )}
+                        onSuccess={(naverUser) => console.log(naverUser)}
+                        onFailure={(e) => console.error(e)}
+                    />
+                );
+            default:
+                return (
+                    <img
+                        // onClick={() => login(i)}
+                        className="Image"
+                        src={logo}
+                        alt="logo"
+                    />
+                );
+        }
+    };
+
     return (
         <div className="LogosWrapper">
             <div>
                 {logos.map((logo, i) => (
                     <div key={i} className="logosStyle" style={logosStyle(i)}>
-                        <img className="Image" src={logo} alt="logo" />
+                        {Login(i, logo)}
                     </div>
                 ))}
             </div>
