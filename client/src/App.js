@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 function App() {
     const classes = useStyles();
     const [modalStyle] = useState(getModalStyle);
-    const [user, setUser] = useState(null);
+
     const [userState, setUserState] = useState(null);
     const [userName, setUserName] = useState('');
     const [open, setOpen] = useState(false);
@@ -44,23 +44,23 @@ function App() {
     const [passwordChecker, setPasswordChecker] = useState(false);
 
     useEffect(() => {
-
         if (password === passwordCheck) setPasswordChecker(true);
         else setPasswordChecker(false);
-    }, [passwordCheck]);
-
+    }, [password, passwordCheck]);
 
     useEffect(() => {
         loginState();
+    }, []);
 
-    }, [])
-
-
-    const loginState = async() => {
-        await axios.get('/api/auth/check').then(data => setUserState(data)).catch(console.log("error"));
+    const loginState = async () => {
+        try {
+            await axios.get('/api/auth/check').then((res) => {
+                setUserState(res);
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
-
-
 
     const logOut = () => {
         axios.post('/api/auth/logout');
@@ -77,26 +77,40 @@ function App() {
                 password: password,
                 userName: userName,
                 emailAddress: email,
-            });
-        setOpen(false);
-        setPasswordChecker(false);
-        setPassword('');
-        setPasswordCheck('');
-        setId('');
-
-        console.log('sign up and sign in');
+            })
+            .then((res) => {
+                if (res.status === 200) {
+                    loginState();
+                    setOpen(false);
+                    setPasswordChecker(false);
+                    setPassword('');
+                    setPasswordCheck('');
+                    setId('');
+                    console.log('sign up and sign in');
+                } else {
+                    console.log('not error but problem');
+                }
+            })
+            .catch((e) => console.log(e));
     };
 
-    const signIn = async(e) => {
+    const signIn = (e) => {
         e.preventDefault();
 
         axios
-            .post('/api/auth/login', { userId: id, password: password });
-
-        setPassword('');
-        setId('');
-        setOpenSingIn(false);
-        console.log('sign in');
+            .post('/api/auth/login', { userId: id, password: password })
+            .then((res) => {
+                if (res.status === 200) {
+                    loginState();
+                    setPassword('');
+                    setId('');
+                    setOpenSingIn(false);
+                    console.log('sign in');
+                } else {
+                    console.log('not error but problem');
+                }
+            })
+            .catch((e) => console.log(e));
     };
 
     return (
@@ -240,11 +254,15 @@ function App() {
                 </div>
                 {userState ? (
                     <div className="App-italic" onClick={logOut}>
-                        <i>로그아웃</i>
-                        <br/>
                         <i>ログアウト</i>
-                        <br/>
+                        <br />
                         <i>LOGOUT</i>
+                        <br></br>
+                        {userState.data.userId}
+                        <br/>
+                        {userState.data.userName}
+                        <br/>
+                        {userState.data.emailAddress}
                     </div>
                 ) : (
                     <div

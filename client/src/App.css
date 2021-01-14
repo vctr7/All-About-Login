@@ -1,6 +1,4 @@
-.App {
-    /* text-align: center; */
-}
+
 
 .App-logo {
     pointer-events: none;
@@ -70,4 +68,8 @@
     -ms-transform: scale(1);
     -o-transform: scale(1);
     opacity: 80%;
+    -webkit-transition: 0.2s;
+    -moz-transition: 0.2s;
+    -ms-transition: 0.2s;
+    -o-transition: 0.2s;
 }

@@ -17,7 +17,7 @@ import spotify from '../logo/spotify.png';
 import twitch from '../logo/twitch.png';
 import twitter from '../logo/twitter.png';
 
-function Logo({}) {
+function Logo() {
     const logos = [
         amazon,
         apple,
@@ -40,7 +40,6 @@ function Logo({}) {
 
     const logosStyle = (idx) => {
         return {
-            position: 'absolute',
             backgroundColor: 'rgba(0,0,0,0)',
             position: 'absolute',
             transform: 'rotate(' + String(idx * deg) + 'deg)',
@@ -52,7 +51,7 @@ function Logo({}) {
             <div>
                 {logos.map((logo, i) => (
                     <div key={i} className="logosStyle" style={logosStyle(i)}>
-                        <img className="Image" src={logo} />
+                        <img className="Image" src={logo} alt="logo" />
                     </div>
                 ))}
             </div>
