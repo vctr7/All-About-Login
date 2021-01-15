@@ -6,7 +6,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import { Button, Input } from '@material-ui/core/';
 import axios from 'axios';
-import NaverLogin from 'react-naver-login';
+
+const {Kakao} = window;
+
 function getModalStyle() {
     const top = 50;
     const left = 50;
@@ -42,6 +44,13 @@ function App() {
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordChecker, setPasswordChecker] = useState(false);
+    useEffect(()=>{
+        // Kakao.init("33d825a70a8c7076c1fc3db49c7e8668");
+        if(Kakao.Auth.getAccessToken()){
+            console.log("액세스토큰 존재. 로그인 유지");
+            // SetIsLogin({loginState:true, enterprise: "Kakao"});
+        }
+    }, [])
 
     useEffect(() => {
         if (password === passwordCheck) setPasswordChecker(true);
@@ -250,7 +259,7 @@ function App() {
                 </div>
             
                 <div className="App-logos">
-                    <Logo className=""></Logo>
+                    <Logo userState={userState} className=""></Logo>
                 </div>
                 {userState ? (
                     <div className="App-italic" onClick={logOut}>
