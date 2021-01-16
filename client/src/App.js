@@ -7,8 +7,6 @@ import Modal from '@material-ui/core/Modal';
 import { Button, Input } from '@material-ui/core/';
 import axios from 'axios';
 
-const {Kakao} = window;
-
 function getModalStyle() {
     const top = 50;
     const left = 50;
@@ -44,22 +42,12 @@ function App() {
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordChecker, setPasswordChecker] = useState(false);
-    useEffect(()=>{
-        // Kakao.init("33d825a70a8c7076c1fc3db49c7e8668");
-        if(Kakao.Auth.getAccessToken()){
-            console.log("액세스토큰 존재. 로그인 유지");
-            // SetIsLogin({loginState:true, enterprise: "Kakao"});
-        }
-    }, [])
+
 
     useEffect(() => {
         if (password === passwordCheck) setPasswordChecker(true);
         else setPasswordChecker(false);
     }, [password, passwordCheck]);
-
-    useEffect(() => {
-        loginState();
-    }, []);
 
     const loginState = async () => {
         try {
@@ -122,6 +110,7 @@ function App() {
             .catch((e) => console.log(e));
     };
 
+
     return (
         <div className="App">
             <Modal
@@ -140,12 +129,6 @@ function App() {
                 <div style={modalStyle} className={classes.paper}>
                     <form>
                         <center className="SignUp">
-                            {/* <img
-                                src={logoUrl}
-                                className="Header-logo"
-                                draggable="false"
-                                alt=""
-                            /> */}
                             회원가입 / サインアップ / SIGN UP
                             <Input
                                 type="text"
@@ -214,12 +197,6 @@ function App() {
                 <div style={modalStyle} className={classes.paper}>
                     <form>
                         <center className="SignIn">
-                            {/* <img
-                                src={logoUrl}
-                                className="Header-logo"
-                                draggable="false"
-                                alt=""
-                            /> */}
                             로그인 / サインイン / SIGN IN
                             <Input
                                 type="text"
@@ -257,7 +234,7 @@ function App() {
                 <div className="App-logo">
                     <img src={logo} alt="logo" />
                 </div>
-            
+
                 <div className="App-logos">
                     <Logo userState={userState} className=""></Logo>
                 </div>

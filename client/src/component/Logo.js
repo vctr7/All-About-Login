@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Logo.css';
-
-import { useState } from 'react';
 import amazon from '../logo/amazon.png';
 import apple from '../logo/apple.png';
 import discord from '../logo/discord.png';
@@ -17,17 +15,20 @@ import spotify from '../logo/spotify.png';
 import twitch from '../logo/twitch.png';
 import twitter from '../logo/twitter.png';
 
-import NaverLogin from 'react-login-by-naver';
-import KakaoLogin from 'react-kakao-login';
+// import NaverLogin from 'react-login-by-naver';
+// import KakaoLogin from 'react-kakao-login';
 import GoogleLogin from 'react-google-login';
+// import GoogleLogin from './google/GoogleLogin';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import TwitterLogin from 'react-twitter-login';
-import GithubLogin from 'react-github-login';
-import LinkedinLogin from 'react-linkedin-login-oauth2';
-import MicrosoftLogin from 'react-microsoft-login';
-import SpotifyLogin from 'react-spotify-login';
+// import FacebookLogin from './facebook/FacebookLogin';
+// import TwitterLogin from 'react-twitter-login';
+import GithubLogin from './github/GithubLogin';
+// import LinkedinLogin from 'react-linkedin-login-oauth2';
+// import MicrosoftLogin from 'react-microsoft-login';
+import SpotifyLogin from './spotify/SpotifyLogin';
 
 import * as config from '../config';
+import axios from 'axios';
 
 const { Kakao } = window;
 
@@ -52,6 +53,8 @@ function Logo({ userState }) {
         kakao,
         google,
     ];
+
+    const redirectUri = 'http://localhost:8795/api/callback';
 
     const loginWithKakao = () => {
         try {
@@ -101,30 +104,36 @@ function Logo({ userState }) {
 
     const Login = (i, logo) => {
         switch (i) {
-            // case 2:
-            //     // https://gist.github.com/iamssen/5402578
-            //     return (
-            //         <GithubLogin
-            //             clientId={githubId}
-            //             render={(props) => (
-            //                 <img
-            //                     onClick={props.onClick}
-            //                     className="Image"
-            //                     src={logo}
-            //                     alt="logo"
-            //                 />
-            //             )}
-            //             onSuccess={(res) => console.log(res)}
-            //             onFailure={(res) => console.error(res)}
-            //         />
-            //     );
+            case 2:
+                return (
+                    <GithubLogin
+                        logo={logo}
+                        clientId={config.GITHUB_ID}
+                        redirectUri={redirectUri}
+                    />
+                );
+
             case 5:
+                // return (<FacebookLogin logo={logo} clientId={config.FACEBOOK_ID} redirectUri={redirectUri} />);
                 return (
                     <FacebookLogin
                         appId={config.FACEBOOK_ID}
                         autoLoad={false}
                         fields="name,first_name,last_name,email"
-                        callback={(res) => console.log(res)}
+                        redirectUri={redirectUri + '/facebook'}
+                        callback={(data) => {
+                            // console.log(data.);
+                            axios
+                                .post('/api/callback/facebook', { data: data })
+                                .then((res) => {
+                                    if (res.status === 200) {
+                                        console.log('success');
+                                    } else {
+                                        console.log('not error but problem');
+                                    }
+                                })
+                                .catch((e) => console.log(e));
+                        }}
                         render={(props) => (
                             <img
                                 onClick={props.onClick}
@@ -135,106 +144,98 @@ function Logo({ userState }) {
                         )}
                     />
                 );
-            case 6:
-                return (
-                    // https://github.com/nvh95/react-linkedin-login-oauth2
-                    <LinkedinLogin
-                        clientId={config.LINKEDIN_ID}
-                        onFailure={(res) => console.log(res)}
-                        onSuccess={(res) => console.log(res)}
-                        redirectUri="http://localhost:3000"
-                        renderElement={({ onClick, disabled }) => (
-                            <img
-                                onClick={onClick}
-                                disabled={disabled}
-                                className="Image"
-                                src={logo}
-                                alt="logo"
-                            />
-                        )}
-                    ></LinkedinLogin>
-                );
-            case 7:
-                return (
-                    <MicrosoftLogin
-                        clientId={config.MICROSOFT_ID}
-                        authCallback={authHandler}
-                        withUserData={true}
-                    >
-                        <img className="Image" src={logo} alt="logo" />
-                    </MicrosoftLogin>
-                );
-            case 8:
-                return (
-                    <TwitterLogin
-                        authCallback={(res) => console.log(res)}
-                        consumerKey={config.TWITTER_ID}
-                        consumerSecret={
-                            'VFGiQEYKvtHVGCVvd9enpGTgKu2MYu0yUqngf09mPhFvChYcSx'
-                        }
-                    >
-                        <img
-                            // onClick={props.onClick}
-                            className="Image"
-                            src={logo}
-                            alt="logo"
-                        />
-                    </TwitterLogin>
-                );
+            // case 6:
+            // return (
+            //     <LinkedinLogin
+            //         clientId={config.LINKEDIN_ID}
+            //         onFailure={(res) => console.log(res)}
+            //         onSuccess={(res) => console.log(res)}
+            //         redirectUri="http://localhost:3000"
+            //         renderElement={({ onClick, disabled }) => (
+            //             <img
+            //                 onClick={onClick}
+            //                 disabled={disabled}
+            //                 className="Image"
+            //                 src={logo}
+            //                 alt="logo"
+            //             />
+            //         )}
+            //     ></LinkedinLogin>
+            // );
+            // case 7:
+            //     return (
+            //         <MicrosoftLogin
+            //             clientId={config.MICROSOFT_ID}
+            //             authCallback={authHandler}
+            //             withUserData={true}
+            //         >
+            //             <img className="Image" src={logo} alt="logo" />
+            //         </MicrosoftLogin>
+            //     );
+            // case 8:
+            //     return (
+            //         <TwitterLogin
+            //             authCallback={(res) => console.log(res)}
+            //             consumerKey={config.TWITTER_ID}
+            //             consumerSecret={
+            //                 'VFGiQEYKvtHVGCVvd9enpGTgKu2MYu0yUqngf09mPhFvChYcSx'
+            //             }
+            //         >
+            //             <img
+            //                 // onClick={props.onClick}
+            //                 className="Image"
+            //                 src={logo}
+            //                 alt="logo"
+            //             />
+            //         </TwitterLogin>
+            //     );
 
             case 9:
                 return (
                     <SpotifyLogin
+                        logo={logo}
                         clientId={config.SPOTIFY_ID}
-                        redirectUri='http://localhost:3000'
-                        onSuccess={(res) => console.log(res)}
-                        onFailure={(res) => console.log(res)}
-                    >
-                        <img
-                            // onClick={props.onClick}
-                            className="Image"
-                            src={logo}
-                            alt="logo"
-                        />
-                    </SpotifyLogin>
-                );
-            case 10:
-                return (
-                    <NaverLogin
-                        clientId={config.NAVER_ID}
-                        callbackUrl="http://127.0.0.1:3000"
-                        render={(props) => (
-                            <img
-                                onClick={props.onClick}
-                                className="Image"
-                                src={logo}
-                                alt="logo"
-                            />
-                        )}
-                        onSuccess={(naverUser) => console.log(naverUser)}
-                        onFailure={(e) => console.error(e)}
+                        redirectUri={redirectUri}
                     />
                 );
-            case 12:
-                if (isLogin.loginState === true) {
-                    return (
-                        <img
-                            onClick={logoutWithKakao}
-                            className="Image"
-                            src={logo}
-                            alt="logo"
-                        />
-                    );
-                } else {
-                    return (
-                        <img
-                            onClick={loginWithKakao}
-                            className="Image"
-                            src={logo}
-                            alt="logo"
-                        />
-                    );
-                }
+
+            // case 10:
+            // return (
+            //     <NaverLogin
+            //         clientId={config.NAVER_ID}
+            //         callbackUrl="http://127.0.0.1:3000"
+            //         render={(props) => (
+            //             <img
+            //                 onClick={props.onClick}
+            //                 className="Image"
+            //                 src={logo}
+            //                 alt="logo"
+            //             />
+            //         )}
+            //         onSuccess={(naverUser) => console.log(naverUser)}
+            //         onFailure={(e) => console.error(e)}
+            //     />
+            // );
+            // case 12:
+            //     if (isLogin.loginState === true) {
+            //         return (
+            //             <img
+            //                 onClick={logoutWithKakao}
+            //                 className="Image"
+            //                 src={logo}
+            //                 alt="logo"
+            //             />
+            //         );
+            //     } else {
+            //         return (
+            //             <img
+            //                 onClick={loginWithKakao}
+            //                 className="Image"
+            //                 src={logo}
+            //                 alt="logo"
+            //             />
+            //         );
+            //     }
             // return (
             //     <KakaoLogin
             //         token={"33d825a70a8c7076c1fc3db49c7e8668"}
@@ -257,9 +258,11 @@ function Logo({ userState }) {
             //     />
             // );
             case 13:
+                // return (<GoogleLogin logo={logo} clientId={config.GOOGLE_ID} redirectUri={redirectUri} />);
                 return (
                     <GoogleLogin
                         clientId={config.GOOGLE_ID}
+                        redirectUri={redirectUri + '/google'}
                         render={(props) => (
                             <img
                                 onClick={props.onClick}
@@ -268,21 +271,25 @@ function Logo({ userState }) {
                                 alt="logo"
                             />
                         )}
-                        onSuccess={(result) => console.log(result)}
+                        onSuccess={(data) =>
+                            axios
+                                .post('/api/callback/google', { data: data })
+                                .then((res) => {
+                                    if (res.status === 200) {
+                                        console.log('success');
+                                    } else {
+                                        console.log('not error but problem');
+                                    }
+                                })
+                                .catch((e) => console.log(e))
+                        }
                         onFailure={(result) => console.log(result)}
                         cookiePolicy={'single_host_origin'}
                     />
                 );
 
             default:
-                return (
-                    <img
-                        // onClick={() => login(i)}
-                        className="Image"
-                        src={logo}
-                        alt="logo"
-                    />
-                );
+                return <img className="Image" src={logo} alt="logo" />;
         }
     };
 
