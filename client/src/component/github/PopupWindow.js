@@ -18,9 +18,9 @@ class PopupWindow {
     this.window.close();
   }
 
-  poll() {
+  async poll() {
     this.promise = new Promise((resolve, reject) => {
-      this._iid = window.setInterval(() => {
+      this._iid = window.setTimeout(() => {
         try {
           const popup = this.window;
           
@@ -39,12 +39,9 @@ class PopupWindow {
           resolve(params);
           this.close();    
         } catch (error) {
-          /*
-           * Ignore DOMException: Blocked a frame with origin from accessing a
-           * cross-origin frame.
-           */
         }
       }, 1000);
+      setTimeout(()=>this.close(), 1000);
       
     });
   }
@@ -66,7 +63,6 @@ class PopupWindow {
 
   static open(...args) {
     const popup = new this(...args);
-    let val;
     popup.open()
     popup.poll();
     return popup;

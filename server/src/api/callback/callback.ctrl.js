@@ -15,18 +15,19 @@ export const spotify = async (ctx) => {
 };
 export const google = async (ctx) => {
   console.log("callback by Google : receive data!", new Date());
-  ctx.body = "Google";
 
-  // console.log(ctx.request.body);
-  // const access_token = ctx.request.body.data.Bc.access_token;
-  // console.log(access_token)
-  console.log(ctx)
+  const access_token = ctx.request.body.data.Bc.access_token;
+  console.log(access_token);
 };
 export const facebook = async (ctx) => {
   console.log("callback by Facebook : receive data!", new Date());
-  ctx.body = "Facebook";
 
-  console.log(ctx)
-  // const access_token = ctx.request.body.data.access_token;
-  // console.log(access_token);
+  const access_token = ctx.request.body.data.accessToken;
+  console.log(access_token);
+};
+export const amazon = async (ctx) => {
+  console.log("callback by Amazon : receive data!", new Date());
+
+  const access_token = ctx.request.body.data.access_token;
+  console.log(access_token);
 };

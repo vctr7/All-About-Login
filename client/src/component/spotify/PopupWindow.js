@@ -19,7 +19,7 @@ class PopupWindow {
 
   poll() {
     this.promise = new Promise((resolve, reject) => {
-      this._iid = window.setInterval(() => {
+      this._iid = window.setTimeout(() => {
         try {
           const popup = this.window;
 
@@ -36,10 +36,8 @@ class PopupWindow {
           }
 
           const params = toParams(popup.location.hash.replace(/^#/, ''));
-
           resolve(params);
 
-          this.close();
         } catch (error) {
           /*
            * Ignore DOMException: Blocked a frame with origin from accessing a
@@ -47,6 +45,7 @@ class PopupWindow {
            */
         }
       }, 1000);
+      setTimeout(()=>this.close(), 1000);
     });
   }
 
@@ -70,6 +69,8 @@ class PopupWindow {
 
     popup.open();
     popup.poll();
+    
+    // setTimeout(popup.close(),3000)
 
     return popup;
   }

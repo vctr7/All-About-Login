@@ -7,10 +7,9 @@ const callback = new Router();
 callback.get('/github', callbackCtrl.github);
 callback.get('/spotify', callbackCtrl.spotify);
 
-callback.get('/google', callbackCtrl.google);
-
-callback.get('/facebook', callbackCtrl.facebook);
-// callback.get('/github', callbackCtrl.github);
+callback.post('/google', callbackCtrl.google);
+callback.post('/facebook', callbackCtrl.facebook);
+callback.post('/amazon', callbackCtrl.amazon);
 // callback.get('/github', callbackCtrl.github);
 // callback.get('/github', callbackCtrl.github);
 

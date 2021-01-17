@@ -43,7 +43,6 @@ function App() {
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordChecker, setPasswordChecker] = useState(false);
 
-
     useEffect(() => {
         if (password === passwordCheck) setPasswordChecker(true);
         else setPasswordChecker(false);
@@ -109,7 +108,6 @@ function App() {
             })
             .catch((e) => console.log(e));
     };
-
 
     return (
         <div className="App">
