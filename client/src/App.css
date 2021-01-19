@@ -3,7 +3,7 @@
 .App-logo {
     pointer-events: none;
     position: absolute;
-    opacity: 20%;
+    opacity: 50%;
 }
 
 @media (prefers-reduced-motion: no-preference) {

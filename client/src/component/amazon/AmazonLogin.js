@@ -8,6 +8,7 @@ const options = {
 };
 function AmazonLogin({ logo, clientId, redirectUri }) {
     useEffect(() => {
+        //lwa(login with amazon) SDK
         ((d) => {
             var a = d.createElement('script');
             a.type = 'text/javascript';
@@ -48,14 +49,11 @@ function AmazonLogin({ logo, clientId, redirectUri }) {
             });
         } catch (error) {
             console.log(error);
-            // alert("Amazon login Error!")
         }
     };
 
     return (
-        <>
             <img onClick={onClick} className="Image" src={logo} alt="logo" />
-        </>
     );
 }
 export default AmazonLogin;

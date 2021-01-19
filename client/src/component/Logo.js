@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Logo.css';
 import Amazon from '../logo/amazon.png';
 import apple from '../logo/apple.png';
@@ -15,24 +15,21 @@ import spotify from '../logo/spotify.png';
 import twitch from '../logo/twitch.png';
 import twitter from '../logo/twitter.png';
 
-// import NaverLogin from 'react-login-by-naver';
-// import KakaoLogin from 'react-kakao-login';
+import NaverLogin from './naver/NaverLogin';
+import KakaoLogin from './kakao/KakaoLogin';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 // import TwitterLogin from 'react-twitter-login';
 import GithubLogin from './github/GithubLogin';
-// import LinkedinLogin from 'react-linkedin-login-oauth2';
-// import MicrosoftLogin from 'react-microsoft-login';
+import LinkedinLogin from './linkedin/LinkedinLogin';
+import MicrosoftLogin from './microsoft/MicrosoftLogin';
 import SpotifyLogin from './spotify/SpotifyLogin';
 import AmazonLogin from './amazon/AmazonLogin';
 
 import * as config from '../config';
 import axios from 'axios';
 
-// const { Kakao } = window;
-
 function Logo({ userState }) {
-
     const logos = [
         Amazon,
         apple,
@@ -49,47 +46,12 @@ function Logo({ userState }) {
         kakao,
         google,
     ];
+    const [click, setClick] = useState(false);
 
     const redirectUri = 'http://localhost:8795/api/callback';
 
-    // const loginWithKakao = () => {
-    //     try {
-    //         return new Promise((resolve, reject) => {
-    //             if (!Kakao) {
-    //                 reject('Kakao 인스턴스 존재 x');
-    //             }
-
-    //             Kakao.Auth.login({
-    //                 // redirectUri: 'http://localhost:3000'
-    //                 scope: 'account_email',
-    //                 success: (auth) => console.log('Kakao 로그인', auth),
-    //                 fail: (err) => console.error(err),
-    //             });
-    //             SetIsLogin({ loginState: true, enterprise: 'Kakao' });
-    //             // window.close()
-    //         });
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
-    // };
-
-    // const logoutWithKakao = () => {
-    //     if (Kakao.Auth.getAccessToken()) {
-    //         console.log(
-    //             '카카오 인증 액세스 토큰이 존재',
-    //             Kakao.Auth.getAccessToken()
-    //         );
-    //         Kakao.Auth.logout(() => {
-    //             console.log('로그아웃', Kakao.Auth.getAccessToken());
-    //             SetIsLogin({ loginState: false, enterprise: '' });
-    //         });
-    //     }
-    // };
-
     const deg = 360 / logos.length;
-    // const authHandler = (err, data) => {
-    //     console.log(data);
-    // };
+
     const logosStyle = (idx) => {
         return {
             backgroundColor: 'rgba(0,0,0,0)',
@@ -98,14 +60,15 @@ function Logo({ userState }) {
         };
     };
 
-
     const Login = (i, logo) => {
         switch (i) {
             case 0:
                 return (
-                    <AmazonLogin logo={logo}
+                    <AmazonLogin
+                        logo={logo}
                         clientId={config.AMAZON_ID}
-                        redirectUri={redirectUri} />
+                        redirectUri={redirectUri}
+                    />
                 );
 
             case 2:
@@ -146,34 +109,26 @@ function Logo({ userState }) {
                         )}
                     />
                 );
-            // case 6:
-            // return (
-            //     <LinkedinLogin
-            //         clientId={config.LINKEDIN_ID}
-            //         onFailure={(res) => console.log(res)}
-            //         onSuccess={(res) => console.log(res)}
-            //         redirectUri="http://localhost:3000"
-            //         renderElement={({ onClick, disabled }) => (
-            //             <img
-            //                 onClick={onClick}
-            //                 disabled={disabled}
-            //                 className="Image"
-            //                 src={logo}
-            //                 alt="logo"
-            //             />
-            //         )}
-            //     ></LinkedinLogin>
-            // );
-            // case 7:
-            //     return (
-            //         <MicrosoftLogin
-            //             clientId={config.MICROSOFT_ID}
-            //             authCallback={authHandler}
-            //             withUserData={true}
-            //         >
-            //             <img className="Image" src={logo} alt="logo" />
-            //         </MicrosoftLogin>
-            //     );
+            case 6:
+                return (
+                    <LinkedinLogin clientId={config.LINKEDIN_ID} logo={logo} redirect_uri={redirectUri}/>
+                    // <LinkedinLogin
+                    //     clientId={config.LINKEDIN_ID}
+                    //     onFailure={(res) => console.log(res)}
+                    //     onSuccess={(res) => console.log(res)}
+                    //     redirectUri="http://localhost:3000"
+                    //     scope="r_emailaddress"
+                    // >
+                    //     <img src={logo} alt="Logo" className="Image" />
+                    // </LinkedinLogin>
+                );
+            case 7:
+                return (
+                    <MicrosoftLogin
+                        clientId={config.MICROSOFT_ID}
+                        logo={logo}
+                    />
+                );
             // case 8:
             //     return (
             //         <TwitterLogin
@@ -195,70 +150,25 @@ function Logo({ userState }) {
             case 9:
                 return (
                     <SpotifyLogin
-                        logo={logo}
                         clientId={config.SPOTIFY_ID}
                         redirectUri={redirectUri}
+                        logo={logo}
                     />
                 );
 
-            // case 10:
-            // return (
-            //     <NaverLogin
-            //         clientId={config.NAVER_ID}
-            //         callbackUrl="http://127.0.0.1:3000"
-            //         render={(props) => (
-            //             <img
-            //                 onClick={props.onClick}
-            //                 className="Image"
-            //                 src={logo}
-            //                 alt="logo"
-            //             />
-            //         )}
-            //         onSuccess={(naverUser) => console.log(naverUser)}
-            //         onFailure={(e) => console.error(e)}
-            //     />
-            // );
-            // case 12:
-            //     if (isLogin.loginState === true) {
-            //         return (
-            //             <img
-            //                 onClick={logoutWithKakao}
-            //                 className="Image"
-            //                 src={logo}
-            //                 alt="logo"
-            //             />
-            //         );
-            //     } else {
-            //         return (
-            //             <img
-            //                 onClick={loginWithKakao}
-            //                 className="Image"
-            //                 src={logo}
-            //                 alt="logo"
-            //             />
-            //         );
-            //     }
-            // return (
-            //     <KakaoLogin
-            //         token={"33d825a70a8c7076c1fc3db49c7e8668"}
-            //         onSuccess={(result) => console.log(result)}
-            //         onFail={(err) => console.error(err)}
-            //         onLogout={console.info}
-            //         render={({ onClick }) => {
-            //             return (
-            //                 <img
-            //                     onClick={(e) => {
-            //                         e.preventDefault();
-            //                         onClick();
-            //                     }}
-            //                     className="Image"
-            //                     src={logo}
-            //                     alt="logo"
-            //                 />
-            //             );
-            //         }}
-            //     />
-            // );
+            case 10:
+                return (
+                    <div id="naverIdLogin">
+                        <NaverLogin
+                            clientId={config.NAVER_ID}
+                            callbackUrl={redirectUri}
+                        />
+                    </div>
+                );
+
+            case 12:
+                return <KakaoLogin logo={logo} redirectUri={redirectUri} />;
+
             case 13:
                 return (
                     <GoogleLogin
@@ -296,12 +206,11 @@ function Logo({ userState }) {
 
     return (
         <div className="LogosWrapper">
-
-                {logos.map((logo, i) => (
-                    <div key={i} className="logosStyle" style={logosStyle(i)}>
-                        {Login(i, logo)}
-                    </div>
-                ))}
+            {logos.map((logo, i) => (
+                <div key={i} style={logosStyle(i)}>
+                    {Login(i, logo)}
+                </div>
+            ))}
         </div>
     );
 }
