@@ -17,6 +17,7 @@
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "http-proxy-middleware": "^1.0.5",
+    "https": "^1.0.0",
     "joi": "^17.3.0",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.1",
