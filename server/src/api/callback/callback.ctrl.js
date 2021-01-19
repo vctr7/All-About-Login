@@ -64,3 +64,9 @@ export const linkedin = async (ctx) => {
   const code = ctx.url.split("=")[1];
   console.log(code);
 };
+export const discord = async (ctx) => {
+  console.log("callback by Discord : receive data!", new Date());
+  ctx.body = "Discord"
+  const code = ctx.url.split("=")[1];
+  console.log(code);
+};

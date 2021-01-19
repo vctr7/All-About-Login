@@ -25,6 +25,7 @@ import LinkedinLogin from './linkedin/LinkedinLogin';
 import MicrosoftLogin from './microsoft/MicrosoftLogin';
 import SpotifyLogin from './spotify/SpotifyLogin';
 import AmazonLogin from './amazon/AmazonLogin';
+import DiscordLogin from './discord/DiscordLogin';
 
 import * as config from '../config';
 import axios from 'axios';
@@ -79,6 +80,18 @@ function Logo({ userState }) {
                         redirectUri={redirectUri}
                     />
                 );
+
+
+            case 4:
+                return(
+                    <DiscordLogin
+                    logo={logo}
+                    clientId={config.DISCORD_ID}
+                    clientSecret={config.DISCORD_SECRET}
+                    redirectUri={redirectUri}
+
+                    />
+                )
 
             case 5:
                 return (
