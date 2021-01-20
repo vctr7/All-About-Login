@@ -6,7 +6,7 @@ let val = false;
 
 const naverLogin = new naver.LoginWithNaverId({
     clientId: config.NAVER_ID,
-    callbackUrl: 'http://localhost:3000',
+    callbackUrl: 'https://localhost:3000',
     callbackHandle: false,
     loginButton: { color: 'white', type: 1, height: 48 },
     isPopup: false,

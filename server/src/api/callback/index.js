@@ -8,6 +8,10 @@ callback.get("/spotify", callbackCtrl.spotify);
 callback.post("/microsoft", callbackCtrl.microsoft);
 callback.get("/linkedin", callbackCtrl.linkedin);
 callback.get("/discord", callbackCtrl.discord);
+callback.get("/line", callbackCtrl.line);
+
+
+callback.post("/twitch", callbackCtrl.twitch);
 
 callback.post("/kakao", callbackCtrl.kakao);
 callback.post("/google", callbackCtrl.google);

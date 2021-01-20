@@ -60,13 +60,24 @@ export const microsoft = async (ctx) => {
 };
 export const linkedin = async (ctx) => {
   console.log("callback by Linkedin : receive data!", new Date());
-  ctx.body = "Linkedin"
+  ctx.body = "Linkedin";
   const code = ctx.url.split("=")[1];
   console.log(code);
 };
 export const discord = async (ctx) => {
   console.log("callback by Discord : receive data!", new Date());
-  ctx.body = "Discord"
+  ctx.body = "Discord";
+  const code = ctx.url.split("=")[1];
+  console.log(code);
+};
+export const twitch = async (ctx) => {
+  console.log("callback by Twitch : receive data!", new Date());
+  const access_token = ctx.request.body.data.access_token;
+  console.log(access_token);
+};
+export const line = async (ctx) => {
+  console.log("callback by Line : receive data!", new Date());
+  ctx.body = "LINE";
   const code = ctx.url.split("=")[1];
   console.log(code);
 };

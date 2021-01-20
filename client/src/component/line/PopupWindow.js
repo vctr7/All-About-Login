@@ -1,15 +1,14 @@
-import { toParams, toQuery } from '../../util/utils';
+import { toParams, toQuery } from '../../util/utils'
 
 class PopupWindow {
-  constructor(id, url, options = {}) {
-    this.id = id;
+  constructor(url) {
     this.url = url;
-    this.options = options;
   }
 
   open() {
-    const { url, id, options } = this;
-    this.window = window.open(url, id, toQuery(options, ','));
+    const { url } = this;
+
+    this.window = window.open(url);
   }
 
   close() {
@@ -17,17 +16,16 @@ class PopupWindow {
     this.window.close();
   }
 
-  poll() {
+  async poll() {
     this.promise = new Promise((resolve, reject) => {
       this._iid = window.setTimeout(() => {
         try {
           const popup = this.window;
-
+          
           if (!popup || popup.closed !== false) {
-            this.close();
-
             reject(new Error('The popup was closed'));
-
+            this.close();
+            
             return;
           }
 
@@ -37,15 +35,10 @@ class PopupWindow {
 
           const params = toParams(popup.location.hash.replace(/^#/, ''));
           resolve(params);
-
+          this.close();    
         } catch (error) {
-          /*
-           * Ignore DOMException: Blocked a frame with origin from accessing a
-           * cross-origin frame.
-           */
         }
       }, 1000);
-      // setTimeout(()=>this.close(), 1000);
     });
   }
 
@@ -66,12 +59,8 @@ class PopupWindow {
 
   static open(...args) {
     const popup = new this(...args);
-
-    popup.open();
+    popup.open()
     popup.poll();
-    
-    // setTimeout(popup.close(),3000)
-
     return popup;
   }
 }

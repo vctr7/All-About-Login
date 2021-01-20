@@ -6,7 +6,7 @@ const options = {
     scope: 'profile',
     scope_data: { profile: { essential: false } },
 };
-function AmazonLogin({ logo, clientId, redirectUri }) {
+function AmazonLogin({ logo }) {
     useEffect(() => {
         //lwa(login with amazon) SDK
         ((d) => {

@@ -3,23 +3,24 @@ import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils';
 import axios from 'axios';
 
-function MicrosoftLogin({ logo, clientId }) {
-    const [scope, setScope] = useState('user.read');
+function TwitchLogin({ logo, clientId, redirectUri }) {
+    const [scope, setScope] = useState('user:edit%20user:read:email');
 
     useEffect(() => {
         setScope(scope);
     }, []);
-
     const onClick = () => {
         const search = toQuery({
             client_id: clientId,
             redirect_uri: 'https://localhost:3000',
-            scope: scope,
             response_type: 'token',
+            scope: scope,
         });
+
         const popup = PopupWindow.open(
-            `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?${search}`
+            `https://id.twitch.tv/oauth2/authorize?${search}`
         );
+
         popup.then(
             (data) => onSuccess(data),
             (error) => onFailure(error)
@@ -28,11 +29,12 @@ function MicrosoftLogin({ logo, clientId }) {
 
     const onSuccess = (data) => {
         if (!data) {
-            onFailure(new Error('code not found'));
+            onFailure(new Error('accessToken not found'));
         } else {
-            // console.log(data);
+            console.log('get accessToken');
+            console.log(data);
             axios
-                .post('/api/callback/microsoft', { data: data })
+                .post('/api/callback/twitch', { data: data })
                 .then((res) => {
                     if (res.status === 200) {
                         console.log('success');
@@ -52,4 +54,4 @@ function MicrosoftLogin({ logo, clientId }) {
 
     return <img onClick={onClick} className="Image" src={logo} alt="logo" />;
 }
-export default MicrosoftLogin;
+export default TwitchLogin;

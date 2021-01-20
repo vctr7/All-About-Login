@@ -24,7 +24,7 @@ router.use("/api", api.routes());
 app.use(bodyParser());
 app.use(jwtMiddleware);
 app.use(router.routes()).use(router.allowedMethods());
-app.listen(port, () => console.log(`HTTP server Listening on port ${port}`));
+// app.listen(port, () => console.log(`HTTP server Listening on port ${port}`));
 
 const httpsServer = https.createServer(options, app.callback());
-httpsServer.listen(8796, () => console.log(`HTTPS server Listening on port ${8796}`));
+httpsServer.listen(port, () => console.log(`HTTPS server Listening on port ${port}`));

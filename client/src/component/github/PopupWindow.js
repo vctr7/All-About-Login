@@ -41,7 +41,7 @@ class PopupWindow {
         } catch (error) {
         }
       }, 1000);
-      setTimeout(()=>this.close(), 1000);
+      // setTimeout(()=>this.close(), 1000);
       
     });
   }

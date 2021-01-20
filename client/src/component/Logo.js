@@ -19,13 +19,15 @@ import NaverLogin from './naver/NaverLogin';
 import KakaoLogin from './kakao/KakaoLogin';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-// import TwitterLogin from 'react-twitter-login';
+import TwitterLogin from 'react-twitter-login';
+import TwitchLogin from './twitch/TwitchLogin';
 import GithubLogin from './github/GithubLogin';
 import LinkedinLogin from './linkedin/LinkedinLogin';
 import MicrosoftLogin from './microsoft/MicrosoftLogin';
 import SpotifyLogin from './spotify/SpotifyLogin';
 import AmazonLogin from './amazon/AmazonLogin';
 import DiscordLogin from './discord/DiscordLogin';
+import LineLogin from './line/LineLogin';
 
 import * as config from '../config';
 import axios from 'axios';
@@ -49,7 +51,7 @@ function Logo({ userState }) {
     ];
     const [click, setClick] = useState(false);
 
-    const redirectUri = 'http://localhost:8795/api/callback';
+    const redirectUri = 'https://localhost:8795/api/callback';
 
     const deg = 360 / logos.length;
 
@@ -64,13 +66,7 @@ function Logo({ userState }) {
     const Login = (i, logo) => {
         switch (i) {
             case 0:
-                return (
-                    <AmazonLogin
-                        logo={logo}
-                        clientId={config.AMAZON_ID}
-                        redirectUri={redirectUri}
-                    />
-                );
+                return <AmazonLogin logo={logo} />;
 
             case 2:
                 return (
@@ -81,17 +77,24 @@ function Logo({ userState }) {
                     />
                 );
 
+            case 3:
+                return (
+                    <TwitchLogin
+                        logo={logo}
+                        clientId={config.TWITCH_ID}
+                        redirectUri={redirectUri}
+                    />
+                );
 
             case 4:
-                return(
+                return (
                     <DiscordLogin
-                    logo={logo}
-                    clientId={config.DISCORD_ID}
-                    clientSecret={config.DISCORD_SECRET}
-                    redirectUri={redirectUri}
-
+                        logo={logo}
+                        clientId={config.DISCORD_ID}
+                        clientSecret={config.DISCORD_SECRET}
+                        redirectUri={redirectUri}
                     />
-                )
+                );
 
             case 5:
                 return (
@@ -124,16 +127,11 @@ function Logo({ userState }) {
                 );
             case 6:
                 return (
-                    <LinkedinLogin clientId={config.LINKEDIN_ID} logo={logo} redirect_uri={redirectUri}/>
-                    // <LinkedinLogin
-                    //     clientId={config.LINKEDIN_ID}
-                    //     onFailure={(res) => console.log(res)}
-                    //     onSuccess={(res) => console.log(res)}
-                    //     redirectUri="http://localhost:3000"
-                    //     scope="r_emailaddress"
-                    // >
-                    //     <img src={logo} alt="Logo" className="Image" />
-                    // </LinkedinLogin>
+                    <LinkedinLogin
+                        clientId={config.LINKEDIN_ID}
+                        logo={logo}
+                        redirect_uri={redirectUri}
+                    />
                 );
             case 7:
                 return (
@@ -142,23 +140,16 @@ function Logo({ userState }) {
                         logo={logo}
                     />
                 );
-            // case 8:
-            //     return (
-            //         <TwitterLogin
-            //             authCallback={(res) => console.log(res)}
-            //             consumerKey={config.TWITTER_ID}
-            //             consumerSecret={
-            //                 'VFGiQEYKvtHVGCVvd9enpGTgKu2MYu0yUqngf09mPhFvChYcSx'
-            //             }
-            //         >
-            //             <img
-            //                 // onClick={props.onClick}
-            //                 className="Image"
-            //                 src={logo}
-            //                 alt="logo"
-            //             />
-            //         </TwitterLogin>
-            //     );
+            case 8:
+                return (
+                    <TwitterLogin
+                        authCallback={(res) => console.log(res)}
+                        consumerKey={config.TWITTER_ID}
+                        consumerSecret={config.TWITTER_SECRET}
+                    >
+                        <img className="Image" src={logo} alt="logo" />
+                    </TwitterLogin>
+                );
 
             case 9:
                 return (
@@ -178,7 +169,14 @@ function Logo({ userState }) {
                         />
                     </div>
                 );
-
+            case 11:
+                return (
+                    <LineLogin
+                        logo={logo}
+                        clientID={config.LINE_ID}
+                        redirectURI={redirectUri}
+                    />
+                );
             case 12:
                 return <KakaoLogin logo={logo} redirectUri={redirectUri} />;
 
