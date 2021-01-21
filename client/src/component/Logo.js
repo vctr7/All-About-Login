@@ -18,7 +18,7 @@ import vkontakte from '../logo/vkontakte.png';
 import slack from '../logo/slack.png';
 import reddit from '../logo/reddit.png';
 import dropbox from '../logo/dropbox.png';
-import yahoo from '../logo/yahoo.png'
+import yahoo from '../logo/yahoo.png';
 
 import NaverLogin from './naver/NaverLogin';
 import KakaoLogin from './kakao/KakaoLogin';
@@ -36,19 +36,24 @@ import LineLogin from './line/LineLogin';
 import VkontakteLogin from './vkontakte/VkontakteLogin';
 import DropboxLogin from './dropbox/DropboxLogin';
 import YahooLogin from './yahoo/YahooLogin';
+import RedditLogin from './reddit/RedditLogin';
 
 import * as config from '../config';
 import axios from 'axios';
+import SlackLogin from './slack/SlackLogin';
 
 function Logo({ userState }) {
     const logos = [
         Amazon,
         apple,
         github,
+        yahoo,
         twitch,
         discord,
         facebook,
+        vkontakte,
         linkedin,
+        dropbox,
         microsoft,
         twitter,
         spotify,
@@ -56,13 +61,8 @@ function Logo({ userState }) {
         line,
         kakao,
         google,
-        vkontakte,
-        dropbox,
-        yahoo,
         slack,
-        
         reddit,
-        
     ];
 
     const redirectUri = 'https://localhost:8795/api/callback';
@@ -90,8 +90,16 @@ function Logo({ userState }) {
                         redirectUri={redirectUri}
                     />
                 );
-
             case 3:
+                return (
+                    <YahooLogin
+                        logo={logo}
+                        clientId={config.YAHOO_ID}
+                        redirectUri={redirectUri}
+                    />
+                );
+
+            case 4:
                 return (
                     <TwitchLogin
                         logo={logo}
@@ -100,7 +108,7 @@ function Logo({ userState }) {
                     />
                 );
 
-            case 4:
+            case 5:
                 return (
                     <DiscordLogin
                         logo={logo}
@@ -110,7 +118,7 @@ function Logo({ userState }) {
                     />
                 );
 
-            case 5:
+            case 6:
                 return (
                     <FacebookLogin
                         appId={config.FACEBOOK_ID}
@@ -139,7 +147,15 @@ function Logo({ userState }) {
                         )}
                     />
                 );
-            case 6:
+            case 7:
+                return (
+                    <VkontakteLogin
+                        logo={logo}
+                        clientId={config.VKONTAKTE_ID}
+                        redirectUri={redirectUri}
+                    />
+                );
+            case 8:
                 return (
                     <LinkedinLogin
                         clientId={config.LINKEDIN_ID}
@@ -147,14 +163,22 @@ function Logo({ userState }) {
                         redirect_uri={redirectUri}
                     />
                 );
-            case 7:
+            case 9:
+                return (
+                    <DropboxLogin
+                        logo={logo}
+                        clientId={config.DROPBOX_ID}
+                        redirectUri={redirectUri}
+                    />
+                );
+            case 10:
                 return (
                     <MicrosoftLogin
                         clientId={config.MICROSOFT_ID}
                         logo={logo}
                     />
                 );
-            case 8:
+            case 11:
                 return (
                     <TwitterLogin
                         authCallback={(err, res) => console.log(err, res)}
@@ -165,7 +189,7 @@ function Logo({ userState }) {
                     </TwitterLogin>
                 );
 
-            case 9:
+            case 12:
                 return (
                     <SpotifyLogin
                         clientId={config.SPOTIFY_ID}
@@ -174,7 +198,7 @@ function Logo({ userState }) {
                     />
                 );
 
-            case 10:
+            case 13:
                 return (
                     <div id="naverIdLogin">
                         <NaverLogin
@@ -183,7 +207,7 @@ function Logo({ userState }) {
                         />
                     </div>
                 );
-            case 11:
+            case 14:
                 return (
                     <LineLogin
                         logo={logo}
@@ -191,10 +215,10 @@ function Logo({ userState }) {
                         redirectURI={redirectUri}
                     />
                 );
-            case 12:
+            case 15:
                 return <KakaoLogin logo={logo} redirectUri={redirectUri} />;
 
-            case 13:
+            case 16:
                 return (
                     <GoogleLogin
                         clientId={config.GOOGLE_ID}
@@ -223,31 +247,23 @@ function Logo({ userState }) {
                         cookiePolicy={'single_host_origin'}
                     />
                 );
-            case 14:
-                return (
-                    <VkontakteLogin
-                        logo={logo}
-                        clientId={config.VKONTAKTE_ID}
-                        redirectUri={redirectUri}
-                    />
-                );
-                case 15:
-                return (
-                    <DropboxLogin
-                        logo={logo}
-                        clientId={config.DROPBOX_ID}
-                        redirectUri={redirectUri}
-                    />
-                );
-                case 16:
-                return (
-                    <YahooLogin
-                        logo={logo}
-                        clientId={config.YAHOO_ID}
-                        redirectUri={redirectUri}
-                    />
-                );
 
+            case 17:
+                return (
+                    <SlackLogin
+                        logo={logo}
+                        clientId={config.SLACK_ID}
+                        redirectUri={redirectUri}
+                    />
+                );
+            case 18:
+                return (
+                    <RedditLogin
+                        logo={logo}
+                        clientId={config.REDDIT_ID}
+                        redirectUri={redirectUri}
+                    />
+                );
             default:
                 return <img className="Image" src={logo} alt="logo" />;
         }

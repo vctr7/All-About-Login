@@ -32,6 +32,19 @@ export const yahoo = async (ctx) => {
   console.log(code);
 };
 
+export const slack = async (ctx) => {
+  console.log("callback by Slack : receive data!", new Date());
+  ctx.body = "Slack";
+  const code = ctx.url.split("=")[1].split("&")[0];
+  console.log(code);
+};
+export const reddit = async (ctx) => {
+  console.log("callback by Reddit : receive data!", new Date());
+  ctx.body = "Reddit";
+  const code = ctx.url.split("=")[2];
+  console.log(code);
+};
+
 export const spotify = async (ctx) => {
   console.log("callback by Spotify : receive data!", new Date());
   ctx.body = "Spotify";

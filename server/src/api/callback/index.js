@@ -13,6 +13,8 @@ callback.get("/twitter", callbackCtrl.twitter);
 callback.get("/vkontakte", callbackCtrl.vkontakte);
 callback.get("/dropbox", callbackCtrl.dropbox);
 callback.get("/yahoo", callbackCtrl.yahoo);
+callback.get("/slack", callbackCtrl.slack);
+callback.get("/reddit", callbackCtrl.reddit);
 callback.post("/twitch", callbackCtrl.twitch);
 
 callback.post("/kakao", callbackCtrl.kakao);
