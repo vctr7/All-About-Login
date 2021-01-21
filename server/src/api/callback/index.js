@@ -9,7 +9,7 @@ callback.post("/microsoft", callbackCtrl.microsoft);
 callback.get("/linkedin", callbackCtrl.linkedin);
 callback.get("/discord", callbackCtrl.discord);
 callback.get("/line", callbackCtrl.line);
-
+callback.get("/twitter", callbackCtrl.twitter);
 
 callback.post("/twitch", callbackCtrl.twitch);
 

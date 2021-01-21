@@ -143,7 +143,7 @@ function Logo({ userState }) {
             case 8:
                 return (
                     <TwitterLogin
-                        authCallback={(res) => console.log(res)}
+                        authCallback={(err, res) => console.log(err, res)}
                         consumerKey={config.TWITTER_ID}
                         consumerSecret={config.TWITTER_SECRET}
                     >
