@@ -11,6 +11,12 @@ export const github = async (ctx) => {
   console.log(code);
 };
 
+export const vkontakte = async (ctx) => {
+  console.log("callback by Vkontakte : receive data!", new Date());
+  ctx.body = "Vkontakte";
+  const code = ctx.url.split("=")[1];
+  console.log(code);
+};
 export const spotify = async (ctx) => {
   console.log("callback by Spotify : receive data!", new Date());
   ctx.body = "Spotify";

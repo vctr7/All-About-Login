@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import './Logo.css';
 import Amazon from '../logo/amazon.png';
 import apple from '../logo/apple.png';
@@ -14,6 +14,10 @@ import naver from '../logo/naver.png';
 import spotify from '../logo/spotify.png';
 import twitch from '../logo/twitch.png';
 import twitter from '../logo/twitter.png';
+import vkontakte from '../logo/vkontakte.png';
+import slack from '../logo/slack.png';
+import reddit from '../logo/reddit.png';
+import dropbox from '../logo/dropbox.png';
 
 import NaverLogin from './naver/NaverLogin';
 import KakaoLogin from './kakao/KakaoLogin';
@@ -28,6 +32,7 @@ import SpotifyLogin from './spotify/SpotifyLogin';
 import AmazonLogin from './amazon/AmazonLogin';
 import DiscordLogin from './discord/DiscordLogin';
 import LineLogin from './line/LineLogin';
+import VkontakteLogin from './vkontakte/VkontakteLogin';
 
 import * as config from '../config';
 import axios from 'axios';
@@ -48,8 +53,11 @@ function Logo({ userState }) {
         line,
         kakao,
         google,
+        vkontakte,
+        slack,
+        dropbox,
+        reddit,
     ];
-    const [click, setClick] = useState(false);
 
     const redirectUri = 'https://localhost:8795/api/callback';
 
@@ -207,6 +215,14 @@ function Logo({ userState }) {
                         }
                         onFailure={(result) => console.log(result)}
                         cookiePolicy={'single_host_origin'}
+                    />
+                );
+            case 14:
+                return (
+                    <VkontakteLogin
+                        logo={logo}
+                        clientId={config.VKONTAKTE_ID}
+                        redirectUri={redirectUri}
                     />
                 );
 
