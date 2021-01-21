@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PopupWindow from './PopupWindow';
 import axios from 'axios';
 import url from 'url';
@@ -6,7 +6,6 @@ import qs from 'qs';
 import querystring from 'querystring';
 import jwt from 'jsonwebtoken';
 import { toQuery } from '../../util/utils';
-
 
 const maxAge = 120;
 
@@ -38,26 +37,14 @@ function LineLogin({ clientID, redirectURI, logo, state, nonce, clientSecret, se
         } else {
             console.log('get accessToken');
             console.log(data);
-            // axios
-            //     .post('/api/callback/line', { data: data })
-            //     .then((res) => {
-            //         if (res.status === 200) {
-            //             console.log('success');
-            //         } else {
-            //             console.log('not error but problem');
-            //         }
-            //     })
-            //     .catch((e) => {
-            //         console.log(e);
-            //     });
         }
     };
 
     const onFailure = (error) => {
         console.error(error);
     };
+    
     const lineLogin = () => {
-        // Build query string.
         
         const query = querystring.stringify({
             response_type: 'code',

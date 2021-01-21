@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils';
 import axios from 'axios';
 
-function TwitchLogin({ logo, clientId, redirectUri }) {
-    const [scope, setScope] = useState('user:edit%20user:read:email');
+function TwitchLogin({ logo, clientId }) {
 
-    useEffect(() => {
-        setScope(scope);
-    }, []);
     const onClick = () => {
         const search = toQuery({
             client_id: clientId,
             redirect_uri: 'https://localhost:3000',
             response_type: 'token',
-            scope: scope,
+            scope: 'user:edit%20user:read:email',
         });
 
         const popup = PopupWindow.open(

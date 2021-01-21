@@ -17,7 +17,7 @@ function sendData(data) {
         val = false;
     } else val = true;
 }
-function NaverLogin({ clientId, redirectUri }) {
+function NaverLogin() {
     useEffect(() => {
         naverLogin.init();
         if (val) {

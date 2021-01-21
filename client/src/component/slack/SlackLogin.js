@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils'
 

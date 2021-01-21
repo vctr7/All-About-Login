@@ -104,7 +104,6 @@ function Logo({ userState }) {
                     <TwitchLogin
                         logo={logo}
                         clientId={config.TWITCH_ID}
-                        redirectUri={redirectUri}
                     />
                 );
 

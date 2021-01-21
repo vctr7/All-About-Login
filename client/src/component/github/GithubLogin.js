@@ -1,18 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils'
 
 function GithubLogin({ logo, clientId, redirectUri }) {
-    const [scope, setScope] = useState('user');
-
-    useEffect(() => {
-        setScope(scope);
-    }, []);
-
     const onClick = () => {
         const search = toQuery({
             client_id: clientId,
-            scope,
+            scope: 'user',
             redirect_uri: redirectUri + "/github",
         });
         const popup = PopupWindow.open(

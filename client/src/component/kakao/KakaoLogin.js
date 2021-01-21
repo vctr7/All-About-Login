@@ -1,15 +1,11 @@
 import React from 'react';
 import axios from 'axios';
-import * as config from '../../config';
 
 const { Kakao } = window;
-function KakaonLogin({ logo, clientId, redirectUri }) {
+function KakaonLogin({ logo }) {
 
     const onClick = () => {
         try {
-            // Kakao.Auth.authorize({
-            //     redirectUri: redirectUri + '/kakao',
-            // });
             Kakao.Auth.login({
                 scope: 'account_email',
                 success:  (data) => {

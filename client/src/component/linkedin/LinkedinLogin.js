@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils';
 
 function LinkedinLogin({ logo, clientId, redirect_uri }) {
-    const [scope, setScope] = useState('r_liteprofile%20r_emailaddress');
-
-    useEffect(() => {
-        setScope(scope);
-    }, []);
 
     const onClick = () => {
         const search = toQuery({
             client_id: clientId,
             redirect_uri: redirect_uri+"/linkedin",
-            scope: scope,
+            scope: 'r_liteprofile%20r_emailaddress',
             response_type: 'code',
         });
         const popup = PopupWindow.open(

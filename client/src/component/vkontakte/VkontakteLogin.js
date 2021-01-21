@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils'
 
 function VkontakteLogin({ logo, clientId, redirectUri }) {
-    const [scope, setScope] = useState('email');
-
-    useEffect(() => {
-        setScope(scope);
-    }, []);
 
     const onClick = () => {
         const search = toQuery({
             client_id: clientId,
-            scope: scope,
+            scope: 'email',
             redirect_uri: redirectUri + "/vkontakte",
             response_type: 'code',
         });

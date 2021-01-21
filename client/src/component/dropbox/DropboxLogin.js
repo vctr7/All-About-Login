@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils'
 
 function DropboxLogin({ logo, clientId, redirectUri }) {
-    // const [scope, setScope] = useState('email');
-
-    // useEffect(() => {
-    //     setScope(scope);
-    // }, []);
 
     const onClick = () => {
         const search = toQuery({

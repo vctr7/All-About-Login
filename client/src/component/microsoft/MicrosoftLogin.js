@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils';
 import axios from 'axios';
 
 function MicrosoftLogin({ logo, clientId }) {
-    const [scope, setScope] = useState('user.read');
-
-    useEffect(() => {
-        setScope(scope);
-    }, []);
 
     const onClick = () => {
         const search = toQuery({
             client_id: clientId,
             redirect_uri: 'https://localhost:3000',
-            scope: scope,
+            scope: 'user.read',
             response_type: 'token',
         });
         const popup = PopupWindow.open(

@@ -35,7 +35,7 @@ function AmazonLogin({ logo }) {
                     alert('oauth error ' + data.error);
                     return;
                 }
-                // console.log(data);
+
                 axios
                     .post('/api/callback/amazon', { data: data })
                     .then((res) => {

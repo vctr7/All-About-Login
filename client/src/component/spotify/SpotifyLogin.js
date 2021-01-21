@@ -1,20 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils';
 
-
 function SpotifyLogin({ logo, clientId, redirectUri }) {
-    const [scope, setScope] = useState('user-read-private');
-
-    useEffect(() => {
-        setScope(scope);
-    });
 
     const onClick = () => {
         console.log('spotify');
         const search = toQuery({
             client_id: clientId,
-            scope,
+            scope: 'user-read-private',
             redirect_uri: redirectUri + "/spotify",
             response_type: 'code',
         });

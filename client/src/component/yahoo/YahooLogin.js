@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils'
 
 function YahooLogin({ logo, clientId, redirectUri }) {
-    // const [scope, setScope] = useState('email');
-
-    // useEffect(() => {
-    //     setScope(scope);
-    // }, []);
 
     const onClick = () => {
         const search = toQuery({
@@ -15,7 +10,7 @@ function YahooLogin({ logo, clientId, redirectUri }) {
             redirect_uri: redirectUri + "/yahoo",
             response_type: 'code',
         });
-        console.log(`https://api.login.yahoo.com/oauth2/request_auth?${search}`)
+
         const popup = PopupWindow.open(
             `https://api.login.yahoo.com/oauth2/request_auth?${search}`,
         );

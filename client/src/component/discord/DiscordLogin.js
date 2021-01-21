@@ -1,19 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils';
 
-function DiscordLogin({ logo, clientId, clientSecret, redirectUri }) {
-    const [scope, setScope] = useState('identify%20email');
-
-    useEffect(() => {
-        setScope(scope);
-    }, []);
-
+function DiscordLogin({ logo, clientId, redirectUri }) {
     const onClick = () => {
         const search = toQuery({
             response_type: 'code',
             client_id: clientId,
-            scope: scope,
+            scope: 'identify%20email',
             grant_type: 'authorization_code',
             redirect_uri: redirectUri + '/discord',
             prompt: 'consent',
