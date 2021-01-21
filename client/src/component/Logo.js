@@ -84,7 +84,18 @@ function Logo({ userState }) {
                 return <AmazonLogin logo={logo} />;
 
             case 1:
-                return <img className="Image" onClick={()=>alert("You need to register in Apple Developer Program")} src={logo} alt="logo"></img>;
+                return (
+                    <img
+                        className="Image"
+                        onClick={() =>
+                            alert(
+                                'You need to register in Apple Developer Program'
+                            )
+                        }
+                        src={logo}
+                        alt="logo"
+                    ></img>
+                );
 
             case 2:
                 return (
@@ -105,7 +116,14 @@ function Logo({ userState }) {
                 );
 
             case 4:
-                return <TwitchLogin logo={logo} clientId={config.TWITCH_ID} />;
+                return (
+                    <TwitchLogin
+                        logo={logo}
+                        clientId={config.TWITCH_ID}
+                        clientSecret={config.TWITCH_SECRET}
+                        redirectUri={redirectUri}
+                    />
+                );
 
             case 5:
                 return (
@@ -183,7 +201,7 @@ function Logo({ userState }) {
                         authCallback={(err, res) => console.log(err, res)}
                         consumerKey={config.TWITTER_ID}
                         consumerSecret={config.TWITTER_SECRET}
-                        callbackUrl={redirectUri+'/twitter'}
+                        callbackUrl={redirectUri + '/twitter'}
                     >
                         <img className="Image" src={logo} alt="logo" />
                     </TwitterLogin>

@@ -3,13 +3,12 @@ import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils';
 import axios from 'axios';
 
-function TwitchLogin({ logo, clientId }) {
-
+function TwitchLogin({ logo, clientId, clientSecret, redirectUri }) {
     const onClick = () => {
         const search = toQuery({
             client_id: clientId,
-            redirect_uri: 'https://localhost:3000',
-            response_type: 'token',
+            redirect_uri: redirectUri,
+            response_type: 'code',
             scope: 'user:edit%20user:read:email',
         });
 
@@ -25,21 +24,75 @@ function TwitchLogin({ logo, clientId }) {
 
     const onSuccess = (data) => {
         if (!data) {
-            onFailure(new Error('accessToken not found'));
+            onFailure(new Error('code not found'));
         } else {
-            console.log('get accessToken');
+            console.log('get code');
             console.log(data);
+            const search = toQuery({
+                client_id: clientId,
+                client_secret: clientSecret,
+                code: data.code,
+                grant_type: 'authorization_code',
+                redirect_uri: redirectUri,
+            });
+            //accesstoken -> user info
             axios
-                .post('/api/callback/twitch', { data: data })
+                .post(
+                    `https://cors-anywhere.herokuapp.com/https://id.twitch.tv/oauth2/token?${search}`
+                )
                 .then((res) => {
-                    if (res.status === 200) {
-                        console.log('success');
-                    } else {
-                        console.log('not error but problem');
-                    }
-                })
-                .catch((e) => {
-                    console.log(e);
+                    console.log(res.data.access_token);
+                    const access_token = res.data.access_token;
+
+                    const header = {
+                        Authorization: 'Bearer ' + access_token,
+                        'Client-Id': clientId,
+                    };
+                    axios
+                        .get(
+                            'https://cors-anywhere.herokuapp.com/https://api.twitch.tv/helix/users',
+                            { headers: header }
+                        )
+                        .then((res) => {
+                            const val = JSON.parse(res.request.response).data['0'];
+                            const id = val.login;
+                            const email = val.email;
+                            const username = val.display_name;
+                            const password = val.created_at;
+                            axios
+                                .post('/api/auth/register', {
+                                    userId: id,
+                                    password: password,
+                                    userName: username,
+                                    emailAddress: email,
+                                    signBy: 'Twitch',
+                                })
+                                .then((res) => {
+                                    if (res.status === 200) {
+                                        console.log('sign up and sign in');
+                                    } else {
+                                        console.log('not error but problem');
+                                    }
+                                })
+                                .catch((e) => {
+                                    console.log(res.status);
+                                    axios
+                                        .post('/api/auth/login', {
+                                            userId: id,
+                                            password: password,
+                                        })
+                                        .then((res) => {
+                                            if (res.status === 200) {
+                                                console.log('sign in');
+                                            } else {
+                                                console.log(
+                                                    'not error but problem'
+                                                );
+                                            }
+                                        })
+                                        .catch((e) => console.log(e));
+                                });
+                        });
                 });
         }
     };

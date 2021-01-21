@@ -77,7 +77,7 @@ function App() {
                 password: password,
                 userName: userName,
                 emailAddress: email,
-                signBy : 'local'
+                signBy : 'Local'
             })
             .then((res) => {
                 if (res.status === 200) {
