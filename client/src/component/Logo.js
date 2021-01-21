@@ -37,10 +37,11 @@ import VkontakteLogin from './vkontakte/VkontakteLogin';
 import DropboxLogin from './dropbox/DropboxLogin';
 import YahooLogin from './yahoo/YahooLogin';
 import RedditLogin from './reddit/RedditLogin';
+import SlackLogin from './slack/SlackLogin';
 
 import * as config from '../config';
 import axios from 'axios';
-import SlackLogin from './slack/SlackLogin';
+import { red } from '@material-ui/core/colors';
 
 function Logo({ userState }) {
     const logos = [
@@ -65,7 +66,7 @@ function Logo({ userState }) {
         reddit,
     ];
 
-    const redirectUri = 'https://localhost:8795/api/callback';
+    const redirectUri = 'https://localhost:3000';
 
     const deg = 360 / logos.length;
 
@@ -82,11 +83,15 @@ function Logo({ userState }) {
             case 0:
                 return <AmazonLogin logo={logo} />;
 
+            case 1:
+                return <img className="Image" onClick={()=>alert("You need to register in Apple Developer Program")} src={logo} alt="logo"></img>;
+
             case 2:
                 return (
                     <GithubLogin
                         logo={logo}
                         clientId={config.GITHUB_ID}
+                        clientSecret={config.GITHUB_SECRET}
                         redirectUri={redirectUri}
                     />
                 );
@@ -100,12 +105,7 @@ function Logo({ userState }) {
                 );
 
             case 4:
-                return (
-                    <TwitchLogin
-                        logo={logo}
-                        clientId={config.TWITCH_ID}
-                    />
-                );
+                return <TwitchLogin logo={logo} clientId={config.TWITCH_ID} />;
 
             case 5:
                 return (
@@ -183,6 +183,7 @@ function Logo({ userState }) {
                         authCallback={(err, res) => console.log(err, res)}
                         consumerKey={config.TWITTER_ID}
                         consumerSecret={config.TWITTER_SECRET}
+                        callbackUrl={redirectUri+'/twitter'}
                     >
                         <img className="Image" src={logo} alt="logo" />
                     </TwitterLogin>

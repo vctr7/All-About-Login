@@ -48,6 +48,10 @@ function App() {
         else setPasswordChecker(false);
     }, [password, passwordCheck]);
 
+    useEffect(()=>{
+        loginState();
+    }, [])
+
     const loginState = async () => {
         try {
             await axios.get('/api/auth/check').then((res) => {
@@ -73,6 +77,7 @@ function App() {
                 password: password,
                 userName: userName,
                 emailAddress: email,
+                signBy : 'local'
             })
             .then((res) => {
                 if (res.status === 200) {

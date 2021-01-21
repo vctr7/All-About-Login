@@ -7,16 +7,7 @@
         animation: LogosWrapper-spin infinite 40s linear;
     }
 }
-/* @media (prefers-reduced-motion: no-preference) {
-    .Image {
-        animation: Image-spin infinite 10s linear;
-    }
-}
-@media (prefers-reduced-motion: no-preference) {
-    .Logos {
-        animation: Logos-spin infinite 20s linear;
-    }
-} */
+ 
 @keyframes LogosWrapper-spin {
     0% {
         transform: rotate(0deg);
@@ -40,12 +31,11 @@
     -moz-transition: 0.3s;
     -ms-transition: 0.3s;
     -o-transition: 0.3s;
-    border: solid 2px black;
+    border: solid 1px white;
     transition: 0.3s;
 }
 
-.Image:hover {
-    
+.Image:hover {  
     transform: translate(9em) rotate(90deg) scale(2);
     -webkit-transform: translate(9em) rotate(90deg) scale(2);
     -moz-transform: translate(9em) rotate(90deg) scale(2);

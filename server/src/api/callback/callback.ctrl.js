@@ -3,6 +3,8 @@ import OAuth from "oauth-1.0a";
 import crypto from "crypto";
 import got from "got";
 import * as config from "../../../../client/src/config";
+import User from "../../models/user";
+
 
 export const github = async (ctx) => {
   console.log("callback by Github : receive data!", new Date());
@@ -175,11 +177,51 @@ export const twitter = async (ctx) => {
             oauth_token_secret,
             username
           );
-          console.log(response);
+          const userId = response.data[0].id;
+          const password = userId;
+
+          const exists = await User.findByUserId(userId);
+          if (exists) {
+            //login
+            axios
+              .post("https://localhost:8795/api/auth/login", {
+                userId: userId,
+                password: password,
+              })
+              .then((res) => {
+                if (res.status === 200) {
+                  console.log("sign in");
+                } else {
+                  console.log("not error but problem");
+                }
+              })
+              .catch((e) => console.log(e));
+          } else {
+            //register
+            const userName = response.data[0].username;
+            const emailAddress = "email";
+            const signBy = "twitter";
+            axios
+              .post("https://localhost:8795/api/auth/register", {
+                userId: userId,
+                password: password,
+                userName: userName,
+                emailAddress: emailAddress,
+                signBy: signBy,
+              })
+              .then((res) => {
+                if (res.status === 200) {
+                  console.log("sign up and sign in");
+                } else {
+                  console.log("not error but problem");
+                }
+              })
+              .catch((e) => console.log(e));
+          }
         } catch (e) {
           console.log(e);
         }
-        process.exit();
+        // process.exit();
       })();
     });
 };

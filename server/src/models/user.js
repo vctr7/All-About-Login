@@ -15,6 +15,9 @@ const UserSchema = new Schema({
     emailAddress: {
         type: String,
     },
+    signBy:{
+        type: String
+    },
     createdDate: {
         type: Date,
         default: Date.now,

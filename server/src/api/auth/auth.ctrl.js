@@ -1,36 +1,35 @@
 import Joi from 'joi';
 import User from '../../models/user';
+process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
 
 export const register = async ctx => {
     console.log("register : receive data!")
-    // console.log(ctx.body)
     const schema = Joi.object().keys({
-        userId: Joi.string()
-            .min(3)
-            .max(20)
-            .required(),
+        userId: Joi.string().required(),
         password: Joi.string().required(),
         userName: Joi.string()
         .min(3)
         .max(20)
         .required(),
-        emailAddress: Joi.string().required(),
+        emailAddress: Joi.string(),
+        signBy: Joi.string().required(),
     });
 
     const result = schema.validate(ctx.request.body);
-    console.log(result);
+    // console.log(result);
     if(result.error){
         ctx.status = 400;
         ctx.body = result.error;
         return;
     }
 
-    const { userId, password, userName, emailAddress } = ctx.request.body;
+    const { userId, password, userName, emailAddress, signBy } = ctx.request.body;
 
     try{
         const exists = await User.findByUserId(userId);
         if(exists){
             ctx.status = 409;
+            console.log("Already exist")
             return;
         }
 
@@ -38,6 +37,7 @@ export const register = async ctx => {
             userId,
             userName,
             emailAddress,
+            signBy,
         });
 
         await user.setPassword(password);
@@ -82,6 +82,7 @@ export const login = async ctx => {
             maxAge: 1000 * 60* 60 * 24 * 7,
             httpOnly: true,
         });
+
     } catch (e){
         throw(500, e);
     }

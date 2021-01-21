@@ -1,4 +1,3 @@
-
 import Router from 'koa-router';
 import * as authCtrl from './auth.ctrl';
 

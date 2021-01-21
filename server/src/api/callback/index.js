@@ -3,9 +3,9 @@ import * as callbackCtrl from "./callback.ctrl";
 
 const callback = new Router();
 
-callback.get("/github", callbackCtrl.github);
+
 callback.get("/spotify", callbackCtrl.spotify);
-callback.post("/microsoft", callbackCtrl.microsoft);
+
 callback.get("/linkedin", callbackCtrl.linkedin);
 callback.get("/discord", callbackCtrl.discord);
 callback.get("/line", callbackCtrl.line);
@@ -15,8 +15,12 @@ callback.get("/dropbox", callbackCtrl.dropbox);
 callback.get("/yahoo", callbackCtrl.yahoo);
 callback.get("/slack", callbackCtrl.slack);
 callback.get("/reddit", callbackCtrl.reddit);
-callback.post("/twitch", callbackCtrl.twitch);
 
+callback.post("/github", callbackCtrl.github);
+
+
+callback.post("/twitch", callbackCtrl.twitch);
+callback.post("/microsoft", callbackCtrl.microsoft);
 callback.post("/kakao", callbackCtrl.kakao);
 callback.post("/google", callbackCtrl.google);
 callback.post("/facebook", callbackCtrl.facebook);
