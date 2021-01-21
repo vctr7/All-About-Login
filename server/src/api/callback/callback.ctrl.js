@@ -17,6 +17,13 @@ export const vkontakte = async (ctx) => {
   const code = ctx.url.split("=")[1];
   console.log(code);
 };
+
+export const dropbox = async (ctx) => {
+  console.log("callback by Dropbox : receive data!", new Date());
+  ctx.body = "Dropbox";
+  const code = ctx.url.split("=")[1];
+  console.log(code);
+};
 export const spotify = async (ctx) => {
   console.log("callback by Spotify : receive data!", new Date());
   ctx.body = "Spotify";

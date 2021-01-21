@@ -33,6 +33,7 @@ import AmazonLogin from './amazon/AmazonLogin';
 import DiscordLogin from './discord/DiscordLogin';
 import LineLogin from './line/LineLogin';
 import VkontakteLogin from './vkontakte/VkontakteLogin';
+import DropboxLogin from './dropbox/DropboxLogin';
 
 import * as config from '../config';
 import axios from 'axios';
@@ -54,8 +55,9 @@ function Logo({ userState }) {
         kakao,
         google,
         vkontakte,
-        slack,
         dropbox,
+        slack,
+        
         reddit,
     ];
 
@@ -222,6 +224,14 @@ function Logo({ userState }) {
                     <VkontakteLogin
                         logo={logo}
                         clientId={config.VKONTAKTE_ID}
+                        redirectUri={redirectUri}
+                    />
+                );
+                case 15:
+                return (
+                    <DropboxLogin
+                        logo={logo}
+                        clientId={config.DROPBOX_ID}
                         redirectUri={redirectUri}
                     />
                 );

@@ -11,6 +11,7 @@ callback.get("/discord", callbackCtrl.discord);
 callback.get("/line", callbackCtrl.line);
 callback.get("/twitter", callbackCtrl.twitter);
 callback.get("/vkontakte", callbackCtrl.vkontakte);
+callback.get("/dropbox", callbackCtrl.dropbox);
 callback.post("/twitch", callbackCtrl.twitch);
 
 callback.post("/kakao", callbackCtrl.kakao);
