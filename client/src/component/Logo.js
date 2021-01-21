@@ -18,6 +18,7 @@ import vkontakte from '../logo/vkontakte.png';
 import slack from '../logo/slack.png';
 import reddit from '../logo/reddit.png';
 import dropbox from '../logo/dropbox.png';
+import yahoo from '../logo/yahoo.png'
 
 import NaverLogin from './naver/NaverLogin';
 import KakaoLogin from './kakao/KakaoLogin';
@@ -34,6 +35,7 @@ import DiscordLogin from './discord/DiscordLogin';
 import LineLogin from './line/LineLogin';
 import VkontakteLogin from './vkontakte/VkontakteLogin';
 import DropboxLogin from './dropbox/DropboxLogin';
+import YahooLogin from './yahoo/YahooLogin';
 
 import * as config from '../config';
 import axios from 'axios';
@@ -56,9 +58,11 @@ function Logo({ userState }) {
         google,
         vkontakte,
         dropbox,
+        yahoo,
         slack,
         
         reddit,
+        
     ];
 
     const redirectUri = 'https://localhost:8795/api/callback';
@@ -232,6 +236,14 @@ function Logo({ userState }) {
                     <DropboxLogin
                         logo={logo}
                         clientId={config.DROPBOX_ID}
+                        redirectUri={redirectUri}
+                    />
+                );
+                case 16:
+                return (
+                    <YahooLogin
+                        logo={logo}
+                        clientId={config.YAHOO_ID}
                         redirectUri={redirectUri}
                     />
                 );

@@ -24,6 +24,14 @@ export const dropbox = async (ctx) => {
   const code = ctx.url.split("=")[1];
   console.log(code);
 };
+
+export const yahoo = async (ctx) => {
+  console.log("callback by Yahoo : receive data!", new Date());
+  ctx.body = "Yahoo";
+  const code = ctx.url.split("=")[1];
+  console.log(code);
+};
+
 export const spotify = async (ctx) => {
   console.log("callback by Spotify : receive data!", new Date());
   ctx.body = "Spotify";
