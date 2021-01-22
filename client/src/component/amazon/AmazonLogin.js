@@ -30,30 +30,60 @@ function AmazonLogin({ logo }) {
     const onClick = () => {
         try {
             let { amazon } = window;
-            amazon.Login.authorize(options, (data) => {
-                if (data.error) {
-                    alert('oauth error ' + data.error);
+            amazon.Login.authorize(options, function (response) {
+                if (response.error) {
+                    alert('oauth error ' + response.error);
                     return;
                 }
-
-                axios
-                    .post('/api/callback/amazon', { data: data })
-                    .then((res) => {
-                        if (res.status === 200) {
-                            console.log('success');
-                        } else {
-                            console.log('not error but problem');
-                        }
-                    })
-                    .catch((e) => console.log(e));
+                amazon.Login.retrieveProfile(
+                    response.access_token,
+                    function (res) {
+                        // console.log(response)
+                        const username = res.profile.Name;
+                        const email = res.profile.PrimaryEmail;
+                        const password = res.profile.CustomerId;
+                        const id = res.profile.CustomerId;
+                        axios
+                            .post('/api/auth/register', {
+                                userId: id,
+                                password: password,
+                                userName: username,
+                                emailAddress: email,
+                                signBy: 'Amazon',
+                            })
+                            .then((res) => {
+                                if (res.status === 200) {
+                                    console.log('sign up and sign in');
+                                } else {
+                                    console.log('not error but problem');
+                                }
+                            })
+                            .catch((e) => {
+                                console.log(res.status);
+                                axios
+                                    .post('/api/auth/login', {
+                                        userId: id,
+                                        password: password,
+                                    })
+                                    .then((res) => {
+                                        if (res.status === 200) {
+                                            console.log('sign in');
+                                        } else {
+                                            console.log(
+                                                'not error but problem'
+                                            );
+                                        }
+                                    })
+                                    .catch((e) => console.log(e));
+                            });
+                    }
+                );
             });
         } catch (error) {
             console.log(error);
         }
     };
 
-    return (
-            <img onClick={onClick} className="Image" src={logo} alt="logo" />
-    );
+    return <img onClick={onClick} className="Image" src={logo} alt="logo" />;
 }
 export default AmazonLogin;

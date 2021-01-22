@@ -54,7 +54,9 @@ function TwitchLogin({ logo, clientId, clientSecret, redirectUri }) {
                             { headers: header }
                         )
                         .then((res) => {
-                            const val = JSON.parse(res.request.response).data['0'];
+                            const val = JSON.parse(res.request.response).data[
+                                '0'
+                            ];
                             const id = val.login;
                             const email = val.email;
                             const username = val.display_name;

@@ -8,5 +8,13 @@ module.exports = function(app) {
       changeOrigin: true,
       secure: false,
     })
+  ),
+  app.use(
+    '/yahoo',
+    createProxyMiddleware({
+      target: 'https://api.login.yahoo.com/oauth2/get_token',
+      changeOrigin: true,
+      secure: false,
+    })
   )
 }

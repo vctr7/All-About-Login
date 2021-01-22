@@ -55,6 +55,7 @@ class PopupWindow {
             }, 500);
         });
     }
+    
     cancel() {
         if (this._iid) {
             window.clearInterval(this._iid);

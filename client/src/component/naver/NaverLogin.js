@@ -36,18 +36,43 @@ function NaverLogin() {
                             naverLogin.reprompt();
                             return;
                         }
+                        const username = data.user.name
+                        const email = data.user.email
+                        const password = data.user.id
+                        const id = password
                         axios
-                            .post('/api/callback/naver', { data: data })
-                            .then((res) => {
-                                if (res.status === 200) {
-                                    console.log('success');
-                                } else {
-                                    console.log('not error but problem');
-                                }
-                            })
-                            .catch((e) => {
-                                console.log(e);
-                            });
+                                .post('/api/auth/register', {
+                                    userId: id,
+                                    password: password,
+                                    userName: username,
+                                    emailAddress: email,
+                                    signBy: 'Naver',
+                                })
+                                .then((res) => {
+                                    if (res.status === 200) {
+                                        console.log('sign up and sign in');
+                                    } else {
+                                        console.log('not error but problem');
+                                    }
+                                })
+                                .catch((e) => {
+                                    axios
+                                        .post('/api/auth/login', {
+                                            userId: id,
+                                            password: password,
+                                        })
+                                        .then((res) => {
+                                            if (res.status === 200) {
+                                                console.log('sign in');
+                                            } else {
+                                                console.log(
+                                                    'not error but problem'
+                                                );
+                                            }
+                                        })
+                                        .catch((e) => console.log(e));
+                                });
+
                         // window.location.replace("http://localhost:3000");
                     } else {
                         console.log('callback 처리에 실패하였습니다.');

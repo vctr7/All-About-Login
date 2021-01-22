@@ -111,6 +111,7 @@ function Logo({ userState }) {
                     <YahooLogin
                         logo={logo}
                         clientId={config.YAHOO_ID}
+                        clientSecret={config.YAHOO_SECRET}
                         redirectUri={redirectUri}
                     />
                 );
@@ -143,16 +144,52 @@ function Logo({ userState }) {
                         fields="name,first_name,last_name,email"
                         redirectUri={redirectUri + '/facebook'}
                         callback={(data) => {
+                            const username = data.name;
+                            const email = data.email;
+                            const password = data.id;
+                            const id = data.id;
                             axios
-                                .post('/api/callback/facebook', { data: data })
+                                .post('/api/auth/register', {
+                                    userId: id,
+                                    password: password,
+                                    userName: username,
+                                    emailAddress: email,
+                                    signBy: 'Facebook',
+                                })
                                 .then((res) => {
                                     if (res.status === 200) {
-                                        console.log('success');
+                                        console.log('sign up and sign in');
                                     } else {
                                         console.log('not error but problem');
                                     }
                                 })
-                                .catch((e) => console.log(e));
+                                .catch((e) => {
+                                    axios
+                                        .post('/api/auth/login', {
+                                            userId: id,
+                                            password: password,
+                                        })
+                                        .then((res) => {
+                                            if (res.status === 200) {
+                                                console.log('sign in');
+                                            } else {
+                                                console.log(
+                                                    'not error but problem'
+                                                );
+                                            }
+                                        })
+                                        .catch((e) => console.log(e));
+                                });
+                            // axios
+                            //     .post('/api/callback/facebook', { data: data })
+                            //     .then((res) => {
+                            //         if (res.status === 200) {
+                            //             console.log('success');
+                            //         } else {
+                            //             console.log('not error but problem');
+                            //         }
+                            //     })
+                            //     .catch((e) => console.log(e));
                         }}
                         render={(props) => (
                             <img
@@ -169,6 +206,7 @@ function Logo({ userState }) {
                     <VkontakteLogin
                         logo={logo}
                         clientId={config.VKONTAKTE_ID}
+                        clientSecret={config.VKONTAKTE_SECRET}
                         redirectUri={redirectUri}
                     />
                 );
@@ -176,6 +214,7 @@ function Logo({ userState }) {
                 return (
                     <LinkedinLogin
                         clientId={config.LINKEDIN_ID}
+                        clientSecret={config.LINKEDIN_SECRET}
                         logo={logo}
                         redirect_uri={redirectUri}
                     />
@@ -193,15 +232,54 @@ function Logo({ userState }) {
                     <MicrosoftLogin
                         clientId={config.MICROSOFT_ID}
                         logo={logo}
+                        redirectUri={redirectUri}
                     />
                 );
             case 11:
                 return (
                     <TwitterLogin
-                        authCallback={(err, res) => console.log(err, res)}
+                        authCallback={(err, res) => {
+                            // console.log(err, res);
+                            const username = res.screen_name
+                            const id = res.user_id
+                            const password = id
+                            const email = "no email"
+                            axios
+                                .post('/api/auth/register', {
+                                    userId: id,
+                                    password: password,
+                                    userName: username,
+                                    emailAddress: email,
+                                    signBy: 'Twitter',
+                                })
+                                .then((res) => {
+                                    if (res.status === 200) {
+                                        console.log('sign up and sign in');
+                                    } else {
+                                        console.log('not error but problem');
+                                    }
+                                })
+                                .catch((e) => {
+                                    axios
+                                        .post('/api/auth/login', {
+                                            userId: id,
+                                            password: password,
+                                        })
+                                        .then((res) => {
+                                            if (res.status === 200) {
+                                                console.log('sign in');
+                                            } else {
+                                                console.log(
+                                                    'not error but problem'
+                                                );
+                                            }
+                                        })
+                                        .catch((e) => console.log(e));
+                                });
+                        }}
                         consumerKey={config.TWITTER_ID}
                         consumerSecret={config.TWITTER_SECRET}
-                        callbackUrl={redirectUri + '/twitter'}
+                        callbackUrl={redirectUri}
                     >
                         <img className="Image" src={logo} alt="logo" />
                     </TwitterLogin>
@@ -211,6 +289,7 @@ function Logo({ userState }) {
                 return (
                     <SpotifyLogin
                         clientId={config.SPOTIFY_ID}
+                        clientSecret={config.SPOTIFY_SECRET}
                         redirectUri={redirectUri}
                         logo={logo}
                     />
@@ -229,7 +308,8 @@ function Logo({ userState }) {
                 return (
                     <LineLogin
                         logo={logo}
-                        clientID={config.LINE_ID}
+                        clientId={config.LINE_ID}
+                        clientSecret={config.LINE_SECRET}
                         redirectURI={redirectUri}
                     />
                 );
@@ -249,18 +329,45 @@ function Logo({ userState }) {
                                 alt="logo"
                             />
                         )}
-                        onSuccess={(data) =>
+                        onSuccess={(data) => {
+                            console.log(data);
+                            const username = data.profileObj.name;
+                            const email = data.profileObj.email;
+                            const password = data.profileObj.googleId;
+                            const id = data.profileObj.googleId;
                             axios
-                                .post('/api/callback/google', { data: data })
+                                .post('/api/auth/register', {
+                                    userId: id,
+                                    password: password,
+                                    userName: username,
+                                    emailAddress: email,
+                                    signBy: 'Google',
+                                })
                                 .then((res) => {
                                     if (res.status === 200) {
-                                        console.log('success');
+                                        console.log('sign up and sign in');
                                     } else {
                                         console.log('not error but problem');
                                     }
                                 })
-                                .catch((e) => console.log(e))
-                        }
+                                .catch((e) => {
+                                    axios
+                                        .post('/api/auth/login', {
+                                            userId: id,
+                                            password: password,
+                                        })
+                                        .then((res) => {
+                                            if (res.status === 200) {
+                                                console.log('sign in');
+                                            } else {
+                                                console.log(
+                                                    'not error but problem'
+                                                );
+                                            }
+                                        })
+                                        .catch((e) => console.log(e));
+                                });
+                        }}
                         onFailure={(result) => console.log(result)}
                         cookiePolicy={'single_host_origin'}
                     />
@@ -271,6 +378,7 @@ function Logo({ userState }) {
                     <SlackLogin
                         logo={logo}
                         clientId={config.SLACK_ID}
+                        clientSecret={config.SLACK_SECRET}
                         redirectUri={redirectUri}
                     />
                 );

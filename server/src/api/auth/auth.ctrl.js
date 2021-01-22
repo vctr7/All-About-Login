@@ -8,7 +8,7 @@ export const register = async ctx => {
         userId: Joi.string().required(),
         password: Joi.string().required(),
         userName: Joi.string()
-        .min(3)
+        .min(2)
         .max(20)
         .required(),
         emailAddress: Joi.string(),

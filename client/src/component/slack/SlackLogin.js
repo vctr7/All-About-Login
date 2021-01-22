@@ -1,18 +1,17 @@
 import React from 'react';
 import PopupWindow from './PopupWindow';
-import { toQuery } from '../../util/utils'
+import { toQuery } from '../../util/utils';
 
-function SlackLogin({ logo, clientId, redirectUri }) {
-
+function SlackLogin({ logo, clientId, clientSecret, redirectUri }) {
     const onClick = () => {
         const search = toQuery({
             client_id: clientId,
-            redirect_uri: redirectUri + "/slack",
-            user_scope:'identity.basic%20identity.email'
+            redirect_uri: redirectUri,
+            user_scope: 'identity.basic%20identity.email',
         });
-        console.log(`https://slack.com/oauth/v2/authorize?${search}`)
+        console.log(`https://slack.com/oauth/v2/authorize?${search}`);
         const popup = PopupWindow.open(
-            `https://slack.com/oauth/v2/authorize?${search}`,
+            `https://slack.com/oauth/v2/authorize?${search}`
         );
 
         popup.then(
@@ -25,8 +24,21 @@ function SlackLogin({ logo, clientId, redirectUri }) {
         if (!data) {
             onFailure(new Error('accessToken not found'));
         } else {
-            console.log('get accessToken');
             console.log(data);
+            const code = data.code;
+
+            const body = new FormData();
+            body.append('code', code);
+            body.append('client_id', clientId);
+            body.append('client_secret', clientSecret);
+
+            fetch('https://slack.com/api/oauth.v2.access', {
+                method: "POST",
+                body: body,
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            }).then(res=>console.log(res));
         }
     };
 

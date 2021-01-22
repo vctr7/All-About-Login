@@ -18,13 +18,14 @@ class PopupWindow {
 
     poll() {
         this.promise = new Promise((resolve, reject) => {
-            this._iid = window.setTimeout(() => {
+            this._iid = window.setInterval(() => {
                 try {
                     const popup = this.window;
 
                     if (!popup || popup.closed !== false) {
-                        reject(new Error('The popup was closed'));
                         this.close();
+
+                        reject(new Error('The popup was closed'));
 
                         return;
                     }
@@ -37,12 +38,19 @@ class PopupWindow {
                     }
 
                     const params = toParams(
-                        popup.location.hash.replace(/^#/, '')
+                        popup.location.search.replace(/^\?/, '')
                     );
+
                     resolve(params);
+
                     this.close();
-                } catch (error) {}
-            }, 1000);
+                } catch (error) {
+                    /*
+                     * Ignore DOMException: Blocked a frame with origin from accessing a
+                     * cross-origin frame.
+                     */
+                }
+            }, 500);
         });
     }
 

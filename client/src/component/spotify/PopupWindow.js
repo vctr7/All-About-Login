@@ -19,35 +19,41 @@ class PopupWindow {
 
   poll() {
     this.promise = new Promise((resolve, reject) => {
-      this._iid = window.setTimeout(() => {
-        try {
-          const popup = this.window;
+        this._iid = window.setInterval(() => {
+            try {
+                const popup = this.window;
 
-          if (!popup || popup.closed !== false) {
-            this.close();
+                if (!popup || popup.closed !== false) {
+                    this.close();
 
-            reject(new Error('The popup was closed'));
+                    reject(new Error('The popup was closed'));
 
-            return;
-          }
+                    return;
+                }
 
-          if (popup.location.href === this.url || popup.location.pathname === 'blank') {
-            return;
-          }
+                if (
+                    popup.location.href === this.url ||
+                    popup.location.pathname === 'blank'
+                ) {
+                    return;
+                }
 
-          const params = toParams(popup.location.hash.replace(/^#/, ''));
-          resolve(params);
+                const params = toParams(
+                    popup.location.search.replace(/^\?/, '')
+                );
 
-        } catch (error) {
-          /*
-           * Ignore DOMException: Blocked a frame with origin from accessing a
-           * cross-origin frame.
-           */
-        }
-      }, 1000);
-      // setTimeout(()=>this.close(), 1000);
+                resolve(params);
+
+                this.close();
+            } catch (error) {
+                /*
+                 * Ignore DOMException: Blocked a frame with origin from accessing a
+                 * cross-origin frame.
+                 */
+            }
+        }, 500);
     });
-  }
+}
 
   cancel() {
     if (this._iid) {

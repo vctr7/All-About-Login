@@ -21,33 +21,36 @@ class PopupWindow {
                 try {
                     const popup = this.window;
 
-                    // if (!popup || popup.closed !== false) {
-                    //     reject(new Error('The popup was closed'));
-                    //     this.close();
+                    if (!popup || popup.closed !== false) {
+                        this.close();
 
-                    //     return;
-                    // }
+                        reject(new Error('The popup was closed'));
 
-                    // if (
-                    //     popup.location.href === this.url ||
-                    //     popup.location.pathname === 'blank'
-                    // ) {
-                    //     return;
-                    // }
-                    // console.log(popup.location)
-                    // const params = toParams(
-                    //     popup.location.hash.replace(/^#/, '')
-                    // );
-                    check = true
-                    resolve();
-                    
-                    
-                } catch (error) {}
-            }, 1000);
-        })
-        // this.close();
-        // setInterval(()=>{if(check) this.close() },1000)
-        // setInterval(()=>console.log(check),1000)
+                        return;
+                    }
+
+                    if (
+                        popup.location.href === this.url ||
+                        popup.location.pathname === 'blank'
+                    ) {
+                        return;
+                    }
+
+                    const params = toParams(
+                        popup.location.search.replace(/^\?/, '')
+                    );
+
+                    resolve(params);
+
+                    this.close();
+                } catch (error) {
+                    /*
+                     * Ignore DOMException: Blocked a frame with origin from accessing a
+                     * cross-origin frame.
+                     */
+                }
+            }, 500);
+        });
     }
 
     cancel() {
@@ -71,7 +74,7 @@ class PopupWindow {
         popup.poll();
         // setInterval(() => {
         //     if(check) this.close();
-        // },1000); 
+        // },1000);
         return popup;
     }
 }
