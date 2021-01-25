@@ -16,7 +16,7 @@ Study oauth2.0 procedure of Tech Giants.
 - MongoDB
 
 
-## References
+## References (A-Z)
 - [Amazon](https://developer.amazon.com/docs/login-with-amazon/web-docs.html)
 - [Discord](https://discord.com/developers/docs/topics/oauth2)
 - [Dropbox](https://www.dropbox.com/lp/developers/reference/oauth-guide)
