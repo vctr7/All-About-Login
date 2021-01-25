@@ -44,18 +44,17 @@ function App() {
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordChecker, setPasswordChecker] = useState(false);
 
-    const [loginChecker, setLoginChecker] = useState(false)
+    const [loginChecker, setLoginChecker] = useState(false);
 
     useEffect(() => {
         if (password === passwordCheck) setPasswordChecker(true);
         else setPasswordChecker(false);
     }, [password, passwordCheck]);
 
-    useEffect(()=>{
-        if (loginChecker===false) return
+    useEffect(() => {
+        if (loginChecker === false) return;
         loginState();
-        
-    }, [loginChecker])
+    }, [loginChecker]);
 
     const loginState = async () => {
         try {
@@ -83,7 +82,7 @@ function App() {
                 password: password,
                 userName: userName,
                 emailAddress: email,
-                signBy : 'Local'
+                signBy: 'Local',
             })
             .then((res) => {
                 if (res.status === 200) {
@@ -102,11 +101,10 @@ function App() {
     };
 
     const getLoginStatus = (data) => {
-        if(data){
+        if (data) {
             setLoginChecker(true);
-        }
-        else setLoginChecker(false);
-    }
+        } else setLoginChecker(false);
+    };
 
     const signIn = (e) => {
         e.preventDefault();
@@ -247,13 +245,16 @@ function App() {
                 </div>
             </Modal>
             <header className="App-header">
-                
                 <div className="App-logo">
                     <img src={logo} alt="logo" />
                 </div>
-             
+
                 <div className="App-logos">
-                    <Logo userState={userState} getLoginStatus={getLoginStatus} className=""></Logo>
+                    <Logo
+                        userState={userState}
+                        getLoginStatus={getLoginStatus}
+                        className=""
+                    ></Logo>
                 </div>
                 {userState ? (
                     <div className="App-italic" onClick={logOut}>
@@ -276,6 +277,12 @@ function App() {
                         {/* {(data)} */}
                     </div>
                 )}
+
+                <footer className="Footer">
+                    <a href="https://github.com/vctr7/All-About-Login" target="_blank">
+                        © 2021 ALL-ABOUT-LOGIN FROM VCTR
+                    </a>
+                </footer>
             </header>
         </div>
     );
