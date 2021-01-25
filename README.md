@@ -1,9 +1,19 @@
-# Oauth
+# All-About-Login
 
 ## Overview
-[Video](https://drive.google.com/drive/folders/1Ds4tlK26BO79-hSgq-YZHTfQK9Y2jaIG?usp=sharing)
+Study oauth2.0 procedure of Tech Giants.
 
-## 
+
+## ScreenShot
+[Video](https://drive.google.com/drive/folders/1Ds4tlK26BO79-hSgq-YZHTfQK9Y2jaIG?usp=sharing)
+![https://github.com/vctr7/All-About-Login/blob/main/demo.gif](https://github.com/vctr7/All-About-Login/blob/main/demo.gif)
+
+## Specification
+#### Client
+- React (using React Hooks)
+#### Server
+- Koa(nodeJS)
+- MongoDB
 
 
 ## References
