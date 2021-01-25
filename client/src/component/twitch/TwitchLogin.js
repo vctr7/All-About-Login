@@ -1,9 +1,9 @@
 import React from 'react';
-import PopupWindow from './PopupWindow';
+import PopupWindow from '../../util/PopupWindow';
 import { toQuery } from '../../util/utils';
 import axios from 'axios';
 
-function TwitchLogin({ logo, clientId, clientSecret, redirectUri }) {
+function TwitchLogin({ logo, clientId, clientSecret, redirectUri, getLoginStatus }) {
     const onClick = () => {
         const search = toQuery({
             client_id: clientId,
@@ -72,6 +72,7 @@ function TwitchLogin({ logo, clientId, clientSecret, redirectUri }) {
                                 .then((res) => {
                                     if (res.status === 200) {
                                         console.log('sign up and sign in');
+                                        getLoginStatus(true);
                                     } else {
                                         console.log('not error but problem');
                                     }
@@ -86,6 +87,7 @@ function TwitchLogin({ logo, clientId, clientSecret, redirectUri }) {
                                         .then((res) => {
                                             if (res.status === 200) {
                                                 console.log('sign in');
+                                                getLoginStatus(true);
                                             } else {
                                                 console.log(
                                                     'not error but problem'

@@ -3,13 +3,9 @@ import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils';
 import axios from 'axios';
 
-function GithubLogin({ logo, clientId, clientSecret, redirectUri }) {
+function GithubLogin({ logo, clientId, clientSecret, redirectUri, getLoginStatus}) {
     const onClick = () => {
-        const search = toQuery({
-            client_id: clientId,
-            scope: 'user',
-            redirect_uri: redirectUri,
-        });
+
         const popup = PopupWindow.open(
             'github-oauth-authorize',
             `https://github.com/login/oauth/authorize?client_id=${clientId}`,
@@ -23,17 +19,16 @@ function GithubLogin({ logo, clientId, clientSecret, redirectUri }) {
     };
 
     const onSuccess = (data) => {
-        const search = toQuery({
-            client_id: clientId,
-            client_secret: clientSecret,
-            code: data.code,
-            redirect_uri: redirectUri,
-            state: 'githubvctr',
-        });
         if (!data) {
             onFailure(new Error('code not found'));
         } else {
-            console.log('get code');
+            const search = toQuery({
+                client_id: clientId,
+                client_secret: clientSecret,
+                code: data.code,
+                redirect_uri: redirectUri,
+                state: 'githubvctr',
+            });
             const headers = {
                 Accept: 'application/json',
             };
@@ -46,10 +41,7 @@ function GithubLogin({ logo, clientId, clientSecret, redirectUri }) {
                     }
                 )
                 .then((res) => {
-                    console.log(res.data);
                     const access_token = res.data.split('&')[0].split('=')[1];
-                    console.log(access_token);
-
                     const header = {
                         Authorization: 'token ' + access_token,
                     };
@@ -75,13 +67,12 @@ function GithubLogin({ logo, clientId, clientSecret, redirectUri }) {
                                 .then((res) => {
                                     if (res.status === 200) {
                                         console.log('sign up and sign in');
+                                        getLoginStatus(true);
                                     } else {
                                         console.log('not error but problem');
                                     }
                                 })
                                 .catch((e) => {
-                                    console.log(res.status);
-                                    console.log('sign in');
                                     axios
                                         .post('/api/auth/login', {
                                             userId: id,
@@ -90,6 +81,7 @@ function GithubLogin({ logo, clientId, clientSecret, redirectUri }) {
                                         .then((res) => {
                                             if (res.status === 200) {
                                                 console.log('sign in');
+                                                getLoginStatus(true);
                                             } else {
                                                 console.log(
                                                     'not error but problem'

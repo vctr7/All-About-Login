@@ -40,13 +40,9 @@ function YahooLogin({ logo, clientId, clientSecret, redirectUri }) {
             const headers = {
                 Authorization: "Basic ZGoweUptazlkSFkzWnpKTFFrMUJkbEZNSm1ROVdWZHJPV05zU2t0VVJGb3dXa1ZWYldOSGJ6bE5RVDA5Sm5NOVkyOXVjM1Z0WlhKelpXTnlaWFFtYzNZOU1DWjRQVFEyOjAzNWM1ZDIxNjc3ZGFiMTYyMjhjMzZjMGE2MGVmYjA0NDMxMDg1Mzk=",
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-                'Access-Control-Allow-Headers': 'Origin, Content-Type, X-Auth-Token',
-                'X-Requested-With':'XMLHttpRequest'
             }
 
-            axios.post('https://cors-anywhere.herokuapp.com/https://api.login.yahoo.com/oauth2/get_token', {
+            axios.post('https://api.login.yahoo.com/oauth2/get_token', {
                 headers:headers,
                 body: body
             }).then(res => {

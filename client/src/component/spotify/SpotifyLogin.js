@@ -3,7 +3,8 @@ import PopupWindow from './PopupWindow';
 import { toQuery } from '../../util/utils';
 import axios from 'axios';
 import request from 'request';
-function SpotifyLogin({ logo, clientId, clientSecret, redirectUri }) {
+
+function SpotifyLogin({ logo, clientId, clientSecret, redirectUri, getLoginStatus }) {
     const onClick = () => {
         console.log('spotify');
         const search = toQuery({
@@ -29,7 +30,6 @@ function SpotifyLogin({ logo, clientId, clientSecret, redirectUri }) {
             onFailure(new Error("'access_token' not found"));
         } else {
             console.log('get access_token');
-            console.log(data);
             const code = data.code;
 
             const authOptions = {
@@ -51,8 +51,8 @@ function SpotifyLogin({ logo, clientId, clientSecret, redirectUri }) {
 
             request.post(authOptions, function (error, response, body) {
                 if (!error && response.statusCode === 200) {
-                    const access_token = body.access_token,
-                        refresh_token = body.refresh_token;
+                    const access_token = body.access_token
+                        // refresh_token = body.refresh_token;
 
                     const options = {
                         url: 'https://api.spotify.com/v1/me',
@@ -62,7 +62,7 @@ function SpotifyLogin({ logo, clientId, clientSecret, redirectUri }) {
 
                     // use the access token to access the Spotify Web API
                     request.get(options, function (error, response, body) {
-                        console.log(body);
+                        // console.log(body);
                         const username = body.display_name;
                         const email = body.email;
                         const id = body.id;
@@ -91,6 +91,7 @@ function SpotifyLogin({ logo, clientId, clientSecret, redirectUri }) {
                                     .then((res) => {
                                         if (res.status === 200) {
                                             console.log('sign in');
+                                            getLoginStatus(true);
                                         } else {
                                             console.log(
                                                 'not error but problem'

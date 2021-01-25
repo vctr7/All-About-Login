@@ -1,11 +1,12 @@
 import logo from './logo.png';
 import './App.css';
 import Logo from './component/Logo';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import { Button, Input } from '@material-ui/core/';
 import axios from 'axios';
+// import { UserContext, UserConsumer } from '../src/context/UserContext'
 
 function getModalStyle() {
     const top = 50;
@@ -43,14 +44,18 @@ function App() {
     const [passwordCheck, setPasswordCheck] = useState('');
     const [passwordChecker, setPasswordChecker] = useState(false);
 
+    const [loginChecker, setLoginChecker] = useState(false)
+
     useEffect(() => {
         if (password === passwordCheck) setPasswordChecker(true);
         else setPasswordChecker(false);
     }, [password, passwordCheck]);
 
     useEffect(()=>{
+        if (loginChecker===false) return
         loginState();
-    }, [])
+        
+    }, [loginChecker])
 
     const loginState = async () => {
         try {
@@ -65,6 +70,7 @@ function App() {
     const logOut = () => {
         axios.post('/api/auth/logout');
         setUserState(null);
+        getLoginStatus(false);
         console.log('logout');
     };
 
@@ -94,6 +100,13 @@ function App() {
             })
             .catch((e) => console.log(e));
     };
+
+    const getLoginStatus = (data) => {
+        if(data){
+            setLoginChecker(true);
+        }
+        else setLoginChecker(false);
+    }
 
     const signIn = (e) => {
         e.preventDefault();
@@ -234,24 +247,23 @@ function App() {
                 </div>
             </Modal>
             <header className="App-header">
+                
                 <div className="App-logo">
                     <img src={logo} alt="logo" />
                 </div>
-
+             
                 <div className="App-logos">
-                    <Logo userState={userState} className=""></Logo>
+                    <Logo userState={userState} getLoginStatus={getLoginStatus} className=""></Logo>
                 </div>
                 {userState ? (
                     <div className="App-italic" onClick={logOut}>
                         <i>ログアウト</i>
                         <br />
                         <i>LOGOUT</i>
-                        <br></br>
-                        {userState.data.userId}
                         <br />
-                        {userState.data.userName}
+                        USERNAME : {userState.data.userName}
                         <br />
-                        {userState.data.emailAddress}
+                        SIGN BY : {userState.data.signBy}
                     </div>
                 ) : (
                     <div

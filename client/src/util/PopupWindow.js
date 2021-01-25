@@ -1,4 +1,4 @@
-import { toParams } from '../../util/utils';
+import { toParams } from './utils';
 
 class PopupWindow {
     constructor(url) {

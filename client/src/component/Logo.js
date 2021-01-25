@@ -41,9 +41,8 @@ import SlackLogin from './slack/SlackLogin';
 
 import * as config from '../config';
 import axios from 'axios';
-import { red } from '@material-ui/core/colors';
 
-function Logo({ userState }) {
+function Logo({ userState, getLoginStatus }) {
     const logos = [
         Amazon,
         apple,
@@ -79,320 +78,349 @@ function Logo({ userState }) {
     };
 
     const Login = (i, logo) => {
-        switch (i) {
-            case 0:
-                return <AmazonLogin logo={logo} />;
-
-            case 1:
-                return (
-                    <img
-                        className="Image"
-                        onClick={() =>
-                            alert(
-                                'You need to register in Apple Developer Program'
-                            )
-                        }
-                        src={logo}
-                        alt="logo"
-                    ></img>
-                );
-
-            case 2:
-                return (
-                    <GithubLogin
-                        logo={logo}
-                        clientId={config.GITHUB_ID}
-                        clientSecret={config.GITHUB_SECRET}
-                        redirectUri={redirectUri}
-                    />
-                );
-            case 3:
-                return (
-                    <YahooLogin
-                        logo={logo}
-                        clientId={config.YAHOO_ID}
-                        clientSecret={config.YAHOO_SECRET}
-                        redirectUri={redirectUri}
-                    />
-                );
-
-            case 4:
-                return (
-                    <TwitchLogin
-                        logo={logo}
-                        clientId={config.TWITCH_ID}
-                        clientSecret={config.TWITCH_SECRET}
-                        redirectUri={redirectUri}
-                    />
-                );
-
-            case 5:
-                return (
-                    <DiscordLogin
-                        logo={logo}
-                        clientId={config.DISCORD_ID}
-                        clientSecret={config.DISCORD_SECRET}
-                        redirectUri={redirectUri}
-                    />
-                );
-
-            case 6:
-                return (
-                    <FacebookLogin
-                        appId={config.FACEBOOK_ID}
-                        autoLoad={false}
-                        fields="name,first_name,last_name,email"
-                        redirectUri={redirectUri + '/facebook'}
-                        callback={(data) => {
-                            const username = data.name;
-                            const email = data.email;
-                            const password = data.id;
-                            const id = data.id;
-                            axios
-                                .post('/api/auth/register', {
-                                    userId: id,
-                                    password: password,
-                                    userName: username,
-                                    emailAddress: email,
-                                    signBy: 'Facebook',
-                                })
-                                .then((res) => {
-                                    if (res.status === 200) {
-                                        console.log('sign up and sign in');
-                                    } else {
-                                        console.log('not error but problem');
-                                    }
-                                })
-                                .catch((e) => {
-                                    axios
-                                        .post('/api/auth/login', {
-                                            userId: id,
-                                            password: password,
-                                        })
-                                        .then((res) => {
-                                            if (res.status === 200) {
-                                                console.log('sign in');
-                                            } else {
-                                                console.log(
-                                                    'not error but problem'
-                                                );
-                                            }
-                                        })
-                                        .catch((e) => console.log(e));
-                                });
-                            // axios
-                            //     .post('/api/callback/facebook', { data: data })
-                            //     .then((res) => {
-                            //         if (res.status === 200) {
-                            //             console.log('success');
-                            //         } else {
-                            //             console.log('not error but problem');
-                            //         }
-                            //     })
-                            //     .catch((e) => console.log(e));
-                        }}
-                        render={(props) => (
-                            <img
-                                onClick={props.onClick}
-                                className="Image"
-                                src={logo}
-                                alt="logo"
-                            />
-                        )}
-                    />
-                );
-            case 7:
-                return (
-                    <VkontakteLogin
-                        logo={logo}
-                        clientId={config.VKONTAKTE_ID}
-                        clientSecret={config.VKONTAKTE_SECRET}
-                        redirectUri={redirectUri}
-                    />
-                );
-            case 8:
-                return (
-                    <LinkedinLogin
-                        clientId={config.LINKEDIN_ID}
-                        clientSecret={config.LINKEDIN_SECRET}
-                        logo={logo}
-                        redirect_uri={redirectUri}
-                    />
-                );
-            case 9:
-                return (
-                    <DropboxLogin
-                        logo={logo}
-                        clientId={config.DROPBOX_ID}
-                        redirectUri={redirectUri}
-                    />
-                );
-            case 10:
-                return (
-                    <MicrosoftLogin
-                        clientId={config.MICROSOFT_ID}
-                        logo={logo}
-                        redirectUri={redirectUri}
-                    />
-                );
-            case 11:
-                return (
-                    <TwitterLogin
-                        authCallback={(err, res) => {
-                            // console.log(err, res);
-                            const username = res.screen_name
-                            const id = res.user_id
-                            const password = id
-                            const email = "no email"
-                            axios
-                                .post('/api/auth/register', {
-                                    userId: id,
-                                    password: password,
-                                    userName: username,
-                                    emailAddress: email,
-                                    signBy: 'Twitter',
-                                })
-                                .then((res) => {
-                                    if (res.status === 200) {
-                                        console.log('sign up and sign in');
-                                    } else {
-                                        console.log('not error but problem');
-                                    }
-                                })
-                                .catch((e) => {
-                                    axios
-                                        .post('/api/auth/login', {
-                                            userId: id,
-                                            password: password,
-                                        })
-                                        .then((res) => {
-                                            if (res.status === 200) {
-                                                console.log('sign in');
-                                            } else {
-                                                console.log(
-                                                    'not error but problem'
-                                                );
-                                            }
-                                        })
-                                        .catch((e) => console.log(e));
-                                });
-                        }}
-                        consumerKey={config.TWITTER_ID}
-                        consumerSecret={config.TWITTER_SECRET}
-                        callbackUrl={redirectUri}
-                    >
-                        <img className="Image" src={logo} alt="logo" />
-                    </TwitterLogin>
-                );
-
-            case 12:
-                return (
-                    <SpotifyLogin
-                        clientId={config.SPOTIFY_ID}
-                        clientSecret={config.SPOTIFY_SECRET}
-                        redirectUri={redirectUri}
-                        logo={logo}
-                    />
-                );
-
-            case 13:
-                return (
-                    <div id="naverIdLogin">
-                        <NaverLogin
-                            clientId={config.NAVER_ID}
-                            callbackUrl={redirectUri}
+        if (userState) {
+            return (
+                <img
+                    className="Image"
+                    onClick={() => alert('Logout First')}
+                    src={logo}
+                    alt="logo"
+                />
+            );
+        } else
+            switch (i) {
+                case 0:
+                    return (
+                        <AmazonLogin
+                            logo={logo}
+                            getLoginStatus={getLoginStatus}
                         />
-                    </div>
-                );
-            case 14:
-                return (
-                    <LineLogin
-                        logo={logo}
-                        clientId={config.LINE_ID}
-                        clientSecret={config.LINE_SECRET}
-                        redirectURI={redirectUri}
-                    />
-                );
-            case 15:
-                return <KakaoLogin logo={logo} redirectUri={redirectUri} />;
+                    );
 
-            case 16:
-                return (
-                    <GoogleLogin
-                        clientId={config.GOOGLE_ID}
-                        redirectUri={redirectUri + '/google'}
-                        render={(props) => (
-                            <img
-                                onClick={props.onClick}
-                                className="Image"
-                                src={logo}
-                                alt="logo"
+                case 1:
+                    return (
+                        <img
+                            className="Image"
+                            onClick={() =>
+                                alert(
+                                    'You need to register in Apple Developer Program'
+                                )
+                            }
+                            src={logo}
+                            alt="logo"
+                        ></img>
+                    );
+
+                case 2:
+                    return (
+                        <GithubLogin
+                            logo={logo}
+                            clientId={config.GITHUB_ID}
+                            clientSecret={config.GITHUB_SECRET}
+                            redirectUri={redirectUri}
+                            getLoginStatus={getLoginStatus}
+                        />
+                    );
+                case 3:
+                    return (
+                        <YahooLogin
+                            logo={logo}
+                            clientId={config.YAHOO_ID}
+                            clientSecret={config.YAHOO_SECRET}
+                            redirectUri={redirectUri}
+                        />
+                    );
+
+                case 4:
+                    return (
+                        <TwitchLogin
+                            logo={logo}
+                            clientId={config.TWITCH_ID}
+                            clientSecret={config.TWITCH_SECRET}
+                            redirectUri={redirectUri}
+                            getLoginStatus={getLoginStatus}
+                        />
+                    );
+
+                case 5:
+                    return (
+                        <DiscordLogin
+                            logo={logo}
+                            clientId={config.DISCORD_ID}
+                            clientSecret={config.DISCORD_SECRET}
+                            redirectUri={redirectUri}
+                            getLoginStatus={getLoginStatus}
+                        />
+                    );
+
+                case 6:
+                    return (
+                        <FacebookLogin
+                            appId={config.FACEBOOK_ID}
+                            autoLoad={false}
+                            fields="name,first_name,last_name,email"
+                            redirectUri={redirectUri + '/facebook'}
+                            callback={(data) => {
+                                const username = data.name;
+                                const email = data.email;
+                                const password = data.id;
+                                const id = data.id;
+                                axios
+                                    .post('/api/auth/register', {
+                                        userId: id,
+                                        password: password,
+                                        userName: username,
+                                        emailAddress: email,
+                                        signBy: 'Facebook',
+                                    })
+                                    .then((res) => {
+                                        if (res.status === 200) {
+                                            console.log('sign up and sign in');
+                                            getLoginStatus(true);
+                                        } else {
+                                            console.log(
+                                                'not error but problem'
+                                            );
+                                        }
+                                    })
+                                    .catch((e) => {
+                                        axios
+                                            .post('/api/auth/login', {
+                                                userId: id,
+                                                password: password,
+                                            })
+                                            .then((res) => {
+                                                if (res.status === 200) {
+                                                    console.log('sign in');
+                                                    getLoginStatus(true);
+                                                } else {
+                                                    console.log(
+                                                        'not error but problem'
+                                                    );
+                                                }
+                                            })
+                                            .catch((e) => console.log(e));
+                                    });
+                            }}
+                            render={(props) => (
+                                <img
+                                    onClick={props.onClick}
+                                    className="Image"
+                                    src={logo}
+                                    alt="logo"
+                                />
+                            )}
+                        />
+                    );
+                case 7:
+                    return (
+                        <VkontakteLogin
+                            logo={logo}
+                            clientId={config.VKONTAKTE_ID}
+                            clientSecret={config.VKONTAKTE_SECRET}
+                            redirectUri={redirectUri}
+                            getLoginStatus={getLoginStatus}
+                        />
+                    );
+                case 8:
+                    return (
+                        <LinkedinLogin
+                            clientId={config.LINKEDIN_ID}
+                            clientSecret={config.LINKEDIN_SECRET}
+                            logo={logo}
+                            redirect_uri={redirectUri}
+                        />
+                    );
+                case 9:
+                    return (
+                        <DropboxLogin
+                            logo={logo}
+                            clientId={config.DROPBOX_ID}
+                            redirectUri={redirectUri}
+                        />
+                    );
+                case 10:
+                    return (
+                        <MicrosoftLogin
+                            clientId={config.MICROSOFT_ID}
+                            logo={logo}
+                            redirectUri={redirectUri}
+                        />
+                    );
+                case 11:
+                    return (
+                        <TwitterLogin
+                            authCallback={(err, res) => {
+                                console.log(err, res);
+                                // const username = res.screen_name;
+                                // const id = res.user_id;
+                                // const password = id;
+                                // const email = 'no email';
+                                // axios
+                                //     .post('/api/auth/register', {
+                                //         userId: id,
+                                //         password: password,
+                                //         userName: username,
+                                //         emailAddress: email,
+                                //         signBy: 'Twitter',
+                                //     })
+                                //     .then((res) => {
+                                //         if (res.status === 200) {
+                                //             console.log('sign up and sign in');
+                                //             getLoginStatus(true);
+                                //         } else {
+                                //             console.log(
+                                //                 'not error but problem'
+                                //             );
+                                //         }
+                                //     })
+                                //     .catch((e) => {
+                                //         axios
+                                //             .post('/api/auth/login', {
+                                //                 userId: id,
+                                //                 password: password,
+                                //             })
+                                //             .then((res) => {
+                                //                 if (res.status === 200) {
+                                //                     console.log('sign in');
+                                //                     getLoginStatus(true);
+                                //                 } else {
+                                //                     console.log(
+                                //                         'not error but problem'
+                                //                     );
+                                //                 }
+                                //             })
+                                //             .catch((e) => console.log(e));
+                                //     });
+                            }}
+                            consumerKey={config.TWITTER_ID}
+                            consumerSecret={config.TWITTER_SECRET}
+                        >
+                            <img className="Image" src={logo} alt="logo" />
+                        </TwitterLogin>
+                    );
+
+                case 12:
+                    return (
+                        <SpotifyLogin
+                            clientId={config.SPOTIFY_ID}
+                            clientSecret={config.SPOTIFY_SECRET}
+                            redirectUri={redirectUri}
+                            logo={logo}
+                            getLoginStatus={getLoginStatus}
+                        />
+                    );
+
+                case 13:
+                    return (
+                        <div id="naverIdLogin">
+                            <NaverLogin
+                                clientId={config.NAVER_ID}
+                                callbackUrl={redirectUri}
+                                getLoginStatus={getLoginStatus}
                             />
-                        )}
-                        onSuccess={(data) => {
-                            console.log(data);
-                            const username = data.profileObj.name;
-                            const email = data.profileObj.email;
-                            const password = data.profileObj.googleId;
-                            const id = data.profileObj.googleId;
-                            axios
-                                .post('/api/auth/register', {
-                                    userId: id,
-                                    password: password,
-                                    userName: username,
-                                    emailAddress: email,
-                                    signBy: 'Google',
-                                })
-                                .then((res) => {
-                                    if (res.status === 200) {
-                                        console.log('sign up and sign in');
-                                    } else {
-                                        console.log('not error but problem');
-                                    }
-                                })
-                                .catch((e) => {
-                                    axios
-                                        .post('/api/auth/login', {
-                                            userId: id,
-                                            password: password,
-                                        })
-                                        .then((res) => {
-                                            if (res.status === 200) {
-                                                console.log('sign in');
-                                            } else {
-                                                console.log(
-                                                    'not error but problem'
-                                                );
-                                            }
-                                        })
-                                        .catch((e) => console.log(e));
-                                });
-                        }}
-                        onFailure={(result) => console.log(result)}
-                        cookiePolicy={'single_host_origin'}
-                    />
-                );
+                        </div>
+                    );
+                case 14:
+                    return (
+                        <LineLogin
+                            logo={logo}
+                            clientId={config.LINE_ID}
+                            clientSecret={config.LINE_SECRET}
+                            redirectURI={redirectUri}
+                            getLoginStatus={getLoginStatus}
+                        />
+                    );
+                case 15:
+                    return (
+                        <KakaoLogin
+                            logo={logo}
+                            redirectUri={redirectUri}
+                            getLoginStatus={getLoginStatus}
+                        />
+                    );
 
-            case 17:
-                return (
-                    <SlackLogin
-                        logo={logo}
-                        clientId={config.SLACK_ID}
-                        clientSecret={config.SLACK_SECRET}
-                        redirectUri={redirectUri}
-                    />
-                );
-            case 18:
-                return (
-                    <RedditLogin
-                        logo={logo}
-                        clientId={config.REDDIT_ID}
-                        redirectUri={redirectUri}
-                    />
-                );
-            default:
-                return <img className="Image" src={logo} alt="logo" />;
-        }
+                case 16:
+                    return (
+                        <GoogleLogin
+                            clientId={config.GOOGLE_ID}
+                            redirectUri={redirectUri + '/google'}
+                            render={(props) => (
+                                <img
+                                    onClick={props.onClick}
+                                    className="Image"
+                                    src={logo}
+                                    alt="logo"
+                                />
+                            )}
+                            onSuccess={(data) => {
+                                // console.log(data);
+                                const username = data.profileObj.name;
+                                const email = data.profileObj.email;
+                                const password = data.profileObj.googleId;
+                                const id = data.profileObj.googleId;
+                                axios
+                                    .post('/api/auth/register', {
+                                        userId: id,
+                                        password: password,
+                                        userName: username,
+                                        emailAddress: email,
+                                        signBy: 'Google',
+                                    })
+                                    .then((res) => {
+                                        if (res.status === 200) {
+                                            console.log('sign up and sign in');
+                                            getLoginStatus(true);
+                                        } else {
+                                            console.log(
+                                                'not error but problem'
+                                            );
+                                        }
+                                    })
+                                    .catch((e) => {
+                                        axios
+                                            .post('/api/auth/login', {
+                                                userId: id,
+                                                password: password,
+                                            })
+                                            .then((res) => {
+                                                if (res.status === 200) {
+                                                    console.log('sign in');
+                                                    getLoginStatus(true);
+                                                } else {
+                                                    console.log(
+                                                        'not error but problem'
+                                                    );
+                                                }
+                                            })
+                                            .catch((e) => console.log(e));
+                                    });
+                            }}
+                            onFailure={(result) => console.log(result)}
+                            cookiePolicy={'single_host_origin'}
+                        />
+                    );
+
+                case 17:
+                    return (
+                        <SlackLogin
+                            logo={logo}
+                            clientId={config.SLACK_ID}
+                            clientSecret={config.SLACK_SECRET}
+                            redirectUri={redirectUri}
+                        />
+                    );
+                case 18:
+                    return (
+                        <RedditLogin
+                            logo={logo}
+                            clientId={config.REDDIT_ID}
+                            redirectUri={redirectUri}
+                        />
+                    );
+                default:
+                    return <img className="Image" src={logo} alt="logo" />;
+            }
     };
 
     return (
@@ -400,8 +428,8 @@ function Logo({ userState }) {
             {logos.map((logo, i) => (
                 <div key={i} style={logosStyle(i)}>
                     {Login(i, logo)}
-                </div>
-            ))}
+                </div>))
+            }
         </div>
     );
 }

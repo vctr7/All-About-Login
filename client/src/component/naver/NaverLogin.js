@@ -12,12 +12,7 @@ const naverLogin = new naver.LoginWithNaverId({
     isPopup: false,
 });
 
-function sendData(data) {
-    if (val) {
-        val = false;
-    } else val = true;
-}
-function NaverLogin() {
+function NaverLogin({ getLoginStatus }) {
     useEffect(() => {
         naverLogin.init();
         if (val) {
@@ -28,7 +23,7 @@ function NaverLogin() {
                         /* 필수적으로 받아야하는 프로필 정보가 있다면 callback처리 시점에 체크 */
 
                         const data = naverLogin;
-                        if (data == undefined || data == null) {
+                        if (data === undefined || data === null) {
                             alert(
                                 '이메일은 필수정보입니다. 정보제공을 동의해주세요.'
                             );
@@ -36,42 +31,44 @@ function NaverLogin() {
                             naverLogin.reprompt();
                             return;
                         }
-                        const username = data.user.name
-                        const email = data.user.email
-                        const password = data.user.id
-                        const id = password
+                        const username = data.user.name;
+                        const email = data.user.email;
+                        const password = data.user.id;
+                        const id = password;
                         axios
-                                .post('/api/auth/register', {
-                                    userId: id,
-                                    password: password,
-                                    userName: username,
-                                    emailAddress: email,
-                                    signBy: 'Naver',
-                                })
-                                .then((res) => {
-                                    if (res.status === 200) {
-                                        console.log('sign up and sign in');
-                                    } else {
-                                        console.log('not error but problem');
-                                    }
-                                })
-                                .catch((e) => {
-                                    axios
-                                        .post('/api/auth/login', {
-                                            userId: id,
-                                            password: password,
-                                        })
-                                        .then((res) => {
-                                            if (res.status === 200) {
-                                                console.log('sign in');
-                                            } else {
-                                                console.log(
-                                                    'not error but problem'
-                                                );
-                                            }
-                                        })
-                                        .catch((e) => console.log(e));
-                                });
+                            .post('/api/auth/register', {
+                                userId: id,
+                                password: password,
+                                userName: username,
+                                emailAddress: email,
+                                signBy: 'Naver',
+                            })
+                            .then((res) => {
+                                if (res.status === 200) {
+                                    console.log('sign up and sign in');
+                                    getLoginStatus(true);
+                                } else {
+                                    console.log('not error but problem');
+                                }
+                            })
+                            .catch((e) => {
+                                axios
+                                    .post('/api/auth/login', {
+                                        userId: id,
+                                        password: password,
+                                    })
+                                    .then((res) => {
+                                        if (res.status === 200) {
+                                            console.log('sign in');
+                                            getLoginStatus(true);
+                                        } else {
+                                            console.log(
+                                                'not error but problem'
+                                            );
+                                        }
+                                    })
+                                    .catch((e) => console.log(e));
+                            });
 
                         // window.location.replace("http://localhost:3000");
                     } else {
@@ -82,7 +79,7 @@ function NaverLogin() {
         } else val = true;
     });
 
-    return <div onClick={()=>alert("Asd")}></div>;
+    return <div onClick={() => alert('Asd')}></div>;
 }
 
 export default NaverLogin;

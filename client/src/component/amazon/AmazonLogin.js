@@ -6,7 +6,7 @@ const options = {
     scope: 'profile',
     scope_data: { profile: { essential: false } },
 };
-function AmazonLogin({ logo }) {
+function AmazonLogin({ logo, getLoginStatus }) {
     useEffect(() => {
         //lwa(login with amazon) SDK
         ((d) => {
@@ -54,6 +54,7 @@ function AmazonLogin({ logo }) {
                             .then((res) => {
                                 if (res.status === 200) {
                                     console.log('sign up and sign in');
+                                    getLoginStatus(true);
                                 } else {
                                     console.log('not error but problem');
                                 }
@@ -68,6 +69,7 @@ function AmazonLogin({ logo }) {
                                     .then((res) => {
                                         if (res.status === 200) {
                                             console.log('sign in');
+                                            getLoginStatus(true);
                                         } else {
                                             console.log(
                                                 'not error but problem'

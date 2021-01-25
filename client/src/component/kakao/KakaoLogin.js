@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 const { Kakao } = window;
-function KakaonLogin({ logo }) {
+function KakaonLogin({ logo, getLoginStatus }) {
     const onClick = () => {
         try {
             Kakao.Auth.login({
@@ -27,6 +27,7 @@ function KakaonLogin({ logo }) {
                                 .then((res) => {
                                     if (res.status === 200) {
                                         console.log('sign up and sign in');
+                                        getLoginStatus(true);
                                     } else {
                                         console.log('not error but problem');
                                     }
@@ -40,6 +41,7 @@ function KakaonLogin({ logo }) {
                                         .then((res) => {
                                             if (res.status === 200) {
                                                 console.log('sign in');
+                                                getLoginStatus(true);
                                             } else {
                                                 console.log(
                                                     'not error but problem'

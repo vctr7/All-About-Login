@@ -1,10 +1,7 @@
 import React from 'react';
-import PopupWindow from './PopupWindow';
+import PopupWindow from '../../util/PopupWindow';
 import axios from 'axios';
-import url from 'url';
 import qs from 'qs';
-import querystring from 'querystring';
-import jwt from 'jsonwebtoken';
 import { toQuery } from '../../util/utils';
 
 const maxAge = 120;
@@ -13,11 +10,8 @@ function LineLogin({
     clientId,
     redirectURI,
     logo,
-    state,
-    nonce,
     clientSecret,
-    setPayload,
-    setIdToken,
+    getLoginStatus,
 }) {
     const onClick = () => {
         const search = toQuery({
@@ -45,7 +39,6 @@ function LineLogin({
             onFailure(new Error('code not found'));
         } else {
             console.log('get code');
-            console.log(data);
             const code = data.code;
 
             const reqBody = {
@@ -92,6 +85,7 @@ function LineLogin({
                                 .then((res) => {
                                     if (res.status === 200) {
                                         console.log('sign up and sign in');
+                                        getLoginStatus(true);
                                     } else {
                                         console.log('not error but problem');
                                     }
@@ -105,6 +99,7 @@ function LineLogin({
                                         .then((res) => {
                                             if (res.status === 200) {
                                                 console.log('sign in');
+                                                getLoginStatus(true);
                                             } else {
                                                 console.log(
                                                     'not error but problem'
@@ -125,11 +120,6 @@ function LineLogin({
         console.error(error);
     };
 
-    return (
-        <img src={logo} onClick={onClick} className="Image" />
-        // <div className={styles.App}>
-        //     <div onClick={() => lineLogin()} className={styles.lineButton} />
-        // </div>
-    );
+    return <img src={logo} onClick={onClick} className="Image" alt="" />;
 }
 export default LineLogin;

@@ -1,9 +1,9 @@
 import React from 'react';
-import PopupWindow from './PopupWindow';
+import PopupWindow from '../../util/PopupWindow';
 import { toQuery } from '../../util/utils';
 import axios from 'axios';
 
-function DiscordLogin({ logo, clientId, clientSecret, redirectUri }) {
+function DiscordLogin({ logo, clientId, clientSecret, redirectUri, getLoginStatus }) {
     const onClick = () => {
         const search = toQuery({
             response_type: 'code',
@@ -76,6 +76,7 @@ function DiscordLogin({ logo, clientId, clientSecret, redirectUri }) {
                         .then((res) => {
                             if (res.status === 200) {
                                 console.log('sign up and sign in');
+                                getLoginStatus(true);
                             } else {
                                 console.log('not error but problem');
                             }
@@ -90,6 +91,7 @@ function DiscordLogin({ logo, clientId, clientSecret, redirectUri }) {
                                 .then((res) => {
                                     if (res.status === 200) {
                                         console.log('sign in');
+                                        getLoginStatus(true);
                                     } else {
                                         console.log('not error but problem');
                                     }

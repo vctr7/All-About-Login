@@ -1,5 +1,5 @@
-import { toParams, toQuery } from '../../util/utils';
-let check = false;
+import { toParams } from '../../util/utils';
+
 class PopupWindow {
     constructor(url) {
         this.url = url;

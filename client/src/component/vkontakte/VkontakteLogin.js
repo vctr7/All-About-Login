@@ -1,9 +1,9 @@
 import React from 'react';
-import PopupWindow from './PopupWindow';
+import PopupWindow from '../../util/PopupWindow';
 import { toQuery } from '../../util/utils';
 import axios from 'axios';
 
-function VkontakteLogin({ logo, clientId, clientSecret, redirectUri }) {
+function VkontakteLogin({ logo, clientId, clientSecret, redirectUri, getLoginStatus }) {
     const onClick = () => {
         const search = toQuery({
             client_id: clientId,
@@ -26,7 +26,6 @@ function VkontakteLogin({ logo, clientId, clientSecret, redirectUri }) {
         if (!data) {
             onFailure(new Error('accessToken not found'));
         } else {
-            console.log('code', data.code);
             const code = data.code;
             const search = toQuery({
                 client_id: clientId,
@@ -73,6 +72,7 @@ function VkontakteLogin({ logo, clientId, clientSecret, redirectUri }) {
                                         .then((res) => {
                                             if (res.status === 200) {
                                                 console.log('sign in');
+                                                getLoginStatus(true);
                                             } else {
                                                 console.log(
                                                     'not error but problem'
