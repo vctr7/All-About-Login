@@ -10,7 +10,7 @@ Study oauth2.0 procedure of Tech Giants.
 
 ## Specification
 #### Client
-- React (using React Hooks)
+- React (using React Hooks), apply https
 #### Server
 - Koa(nodeJS)
 - MongoDB
@@ -36,3 +36,18 @@ Study oauth2.0 procedure of Tech Giants.
 - [Vkontakte](https://vk.com/dev/authcode_flow_user)
 - [Yahoo](https://developer.yahoo.com/oauth2/guide/)
 
+![https://github.com/vctr7/All-About-Login/blob/main/referebces/amazon.png](https://github.com/vctr7/All-About-Login/blob/main/referebces/amazon.png)
+
+![https://github.com/vctr7/All-About-Login/blob/main/referebces/dropbox.png](https://github.com/vctr7/All-About-Login/blob/main/referebces/dropbox.png)
+
+![https://github.com/vctr7/All-About-Login/blob/main/referebces/google.png](https://github.com/vctr7/All-About-Login/blob/main/referebces/google.png)
+
+![https://github.com/vctr7/All-About-Login/blob/main/referebces/line.svg](https://github.com/vctr7/All-About-Login/blob/main/referebces/line.svg)
+
+![https://github.com/vctr7/All-About-Login/blob/main/referebces/mirosoft.svg](https://github.com/vctr7/All-About-Login/blob/main/referebces/mirosoft.svg)
+
+![https://github.com/vctr7/All-About-Login/blob/main/referebces/slack.png](https://github.com/vctr7/All-About-Login/blob/main/referebces/slack.png)
+
+![https://github.com/vctr7/All-About-Login/blob/main/referebces/twitter.png](https://github.com/vctr7/All-About-Login/blob/main/referebces/twitter.png)
+
+![https://github.com/vctr7/All-About-Login/blob/main/referebces/Spotify%20AuthG_AuthoriztionCode.png](https://github.com/vctr7/All-About-Login/blob/main/referebces/Spotify%20AuthG_AuthoriztionCode.png)
