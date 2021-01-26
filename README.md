@@ -5,8 +5,11 @@ Study oauth2.0 procedure of Tech Giants.
 
 
 ## ScreenShot
-[Video](https://drive.google.com/drive/folders/1Ds4tlK26BO79-hSgq-YZHTfQK9Y2jaIG?usp=sharing)
+
 ![https://github.com/vctr7/All-About-Login/blob/main/demo2.gif](https://github.com/vctr7/All-About-Login/blob/main/demo2.gif)
+![https://github.com/vctr7/All-About-Login/blob/main/demo3.gif](https://github.com/vctr7/All-About-Login/blob/main/demo3.gif)
+
+[Video](https://drive.google.com/drive/folders/1Ds4tlK26BO79-hSgq-YZHTfQK9Y2jaIG?usp=sharing)
 ## Specification
 #### Client
 - React (using React Hooks), apply https
